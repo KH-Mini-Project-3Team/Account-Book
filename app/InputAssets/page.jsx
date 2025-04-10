@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import "../styles/input-assets.css"; // 사용자 정의 스타일 파일
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker 스타일 파일을 import
-import "../styles/input-assets.css"; // 사용자 정의 스타일 파일
+
 
 export default function InputAssets() {
   const [activeTab, setActiveTab] = useState("지출"); // 활성화된 탭 상태
   const [headerText, setHeaderText] = useState("지출"); // 상단 텍스트 상태
-  const [categoryList, setCategoryList] = useState(["편의점", "카페", "음식점"]); // 분류 버튼 목록
+  const [categoryList, setCategoryList] = useState(["편의점", "카페", "음식점","담배","구독료"]); // 분류 버튼 목록
+  const [assetList, setAssetList] = useState(["토스뱅크", "카카오뱅크", "농협", "IBK기업", "신한"])
   const [selectedCategory, setSelectedCategory] = useState(""); // 선택된 분류
   const [selectedAsset, setSelectedAsset] = useState(""); // 선택된 자산 상태
   const [selectedDate, setSelectedDate] = useState(new Date()); // 선택된 날짜 상태
@@ -18,8 +20,6 @@ export default function InputAssets() {
   const [categoryLabel, setCategoryLabel] = useState("분류"); // 분류 라벨 상태
   const [assetLabel, setAssetLabel] = useState("자산"); // 자산 라벨 상태
   const [visibleUI, setVisibleUI] = useState("calculator"); // 현재 표시 중인 UI 상태 (초기값: 계산기)
-
-  const assetList = ["토스뱅크", "카카오뱅크"]; // 자산 목록
 
   const formatCurrencyWithExpression = (value) => {
     if (!value) return ""; // 값이 없으면 빈 문자열 반환
@@ -60,7 +60,7 @@ export default function InputAssets() {
       setCategoryLabel("분류");
       setAssetLabel("자산");
     } else if (tab === "지출") {
-      setCategoryList(["편의점", "카페", "음식점"]);
+      setCategoryList(["편의점", "카페", "음식점","담배","구독료"]);
       setCategoryLabel("분류");
       setAssetLabel("자산");
     } else if (tab === "이체") {
@@ -157,13 +157,12 @@ export default function InputAssets() {
       <div className="form-inline">
         <div>
           <span>날짜</span>
-          <input type="text" placeholder="날짜" value={selectedDate.toLocaleDateString()} readOnly onClick={handleDateClick} />
+          <input type="text" value={selectedDate.toLocaleDateString()} readOnly onClick={handleDateClick} />
         </div>
         <div>
           <span>금액</span>
           <input 
             type="text" 
-            placeholder="금액" 
             value={amount ? formatCurrencyWithExpression(amount) : ""} 
             onChange={handleAmountChange} 
             onKeyDown={handleKeyPressOnAmountField} 
@@ -172,23 +171,22 @@ export default function InputAssets() {
         </div>
         <div>
           <span>{categoryLabel}</span>
-          <input type="text" placeholder={`${categoryLabel}를 선택하세요`} value={selectedCategory} readOnly onClick={handleCategoryClick} />
+          <input type="text" value={selectedCategory} readOnly onClick={handleCategoryClick} />
         </div>
         <div>
           <span>{assetLabel}</span>
-          <input type="text" placeholder={`${assetLabel}를 입력하세요`} value={selectedAsset} readOnly onClick={handleAssetClick} />
+          <input type="text" value={selectedAsset} readOnly onClick={handleAssetClick} />
         </div>
         <div>
           <span>내용</span>
           <input 
             type="text" 
-            placeholder="내용" 
             value={content} 
             onChange={handleContentChange} 
           />
         </div>
         <div>
-          <button>저장</button>
+          <button className="store-btn">저장</button>
         </div>
       </div>
 
