@@ -1,15 +1,11 @@
-import {addMonths, subMonths} from 'date-fns';
-
 export default function Header() {
-
-
    const handlePrevMonth = () => {
       setCurrentDate(prev => subMonths(prev, 1));
    }
    const handleNextMonth = () => {
       setCurrentDate(prev => addMonths(prev, 1));
    }
-   const formattedDate=`${currentDate.getFullYear()}년${currentDate.getMonth()+1}월`;
+   const formattedDate=`${current}`
    return (
       <>
          <div style={{height:"50px"}}>

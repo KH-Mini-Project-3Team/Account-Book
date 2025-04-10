@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/KH-Mini-Project-3Team/Account-Book#readme",
   "dependencies": {
-    "next": "^15.2.5",
+    "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
