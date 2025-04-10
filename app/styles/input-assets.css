@@ -1,0 +1,147 @@
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #F3D7D3; /* 부모 배경색 */
+  color: #FFFFFF;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.header span {
+  font-size: 24px;
+  font-weight: 200;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.tabs button {
+  width: calc(33.33% - 10px);
+  padding: 10px;
+  border-radius: 5px;
+  border: 0;
+  background-color: #f8b8af;
+  color: #FFFFFF;
+}
+
+.tabs button.active {
+  border: solid #ff6b6b;
+  background-color: #F3D7D3;
+  color: #ff6b6b;
+}
+
+/* Inline Form Section */
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-inline div {
+  width: 100%;
+}
+.form-inline span{
+  margin-right: 20px;
+}
+
+.form-inline input,
+.form-inline select {
+  box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+  width: calc(100% - 10px); /* 너비를 동일하게 설정 */
+  max-width: 350px; /* 최대 너비 제한 */
+  margin-right: auto; /* 오른쪽 여백 제거 */
+  padding: 10px; /* 동일한 내부 여백 */
+  background-color: transparent; /* 부모 배경색을 투명하게 설정 */
+  border: none; /* 테두리 제거 */
+  border-bottom: 2px solid #FFFFFF; /* 기본 밑줄 스타일 */
+  outline: none; /* 포커스 시 기본 테두리 제거 */
+  transition: border-color .3s ease; /* 부드러운 전환 효과 */
+}
+
+/* 클릭(포커스) 시 밑줄 색상 변경 */
+.form-inline input:focus,
+.form-inline select:focus {
+    border-bottom-color: red; /* 포커스된 항목의 밑줄을 빨간색으로 변경 */
+}
+
+/* 항목에 마우스를 올렸을 때 커서 스타일 변경 */
+.form-inline input:hover,
+.form-inline select:hover {
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+
+/* Calculator (크기 유지) */
+.calculator {
+    margin-top: 50px;
+}
+
+.calculator-display {
+    background-color: #e3e3e3;
+}
+
+.calculator-grid {
+    display: flex; /* Flexbox 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    flex-wrap: wrap; /* 버튼이 여러 줄로 배치될 경우 줄바꿈 허용 */
+    gap: 2px; /* 버튼 간 간격 */
+}
+
+.calculator-grid button {
+    width: calc(24%); /* 버튼 크기를 유연하게 설정 (기존 유지) */
+    height: 50px; /* 기존 높이 유지 */
+}
+
+/* Category Buttons (크기 유지) */
+.category-buttons {
+    margin-top: 50px;
+}
+
+.category-buttons button {
+    width: calc(24%); /* 기존 너비 유지 */
+    height: 50px; /* 기존 높이 유지 */
+}
+
+/* Date Picker (크기 유지) */
+.date-picker .react-datepicker-wrapper,
+.date-picker .react-datepicker {
+    width: 100%; /* 부모 컨테이너 너비에 맞게 확장 (기존 유지) */
+}
+
+.date-picker .react-datepicker__month-container {
+    width: 100%; /* 달력 내부도 부모 너비에 맞게 확장 (기존 유지) */
+}
+
+.date-picker .react-datepicker__header {
+    font-size: 1.2rem; /* 헤더 글씨 크기 조정 (기존 유지) */
+    text-align: center;
+}
+
+.date-picker .react-datepicker__day-names,
+.date-picker .react-datepicker__week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 기존 균등 배치 유지 */
+}
+
+.date-picker .react-datepicker__day-name,
+.date-picker .react-datepicker__day {
+    text-align: center; /* 텍스트 중앙 정렬 (기존 유지) */
+    font-size: 1rem; /* 글씨 크기 조정 (기존 유지) */
+}
