@@ -1,0 +1,26 @@
+.container {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh; /* 전체 화면 높이 차지 */
+   max-width: 430px;
+   margin: 0 auto;
+   background: white;
+   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+   position: relative; /* 하단 네비게이션 고정을 위해 */
+ }
+ 
+ .mainContent {
+   flex: 1; /* 남은 공간 모두 차지 */
+   overflow-y: auto; /* 내용 넘칠 시 스크롤 */
+   padding-bottom: 60px; /* 네비게이션 높이만큼 여백 */
+ }
+ 
+ .navigation {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   max-width: 430px;
+   background: #f8f9fa;
+   border-top: 1px solid #e9ecef;
+   padding: 10px 0;
+ }
