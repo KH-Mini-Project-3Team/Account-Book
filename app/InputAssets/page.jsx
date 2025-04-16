@@ -17,7 +17,7 @@ export default function InputAssets() {
   const {expensesList, setExpensesList} = useData();
   const {assetList, setAssetList} = useData();
   // 분류 버튼 목록
-  const [categoryList, setCategoryList] = useState(); 
+  const [categoryList, setCategoryList] = useState(revenuList); 
   // 선택된 분류
   const [selectedCategory, setSelectedCategory] = useState(""); 
   // 선택된 자산 상태
