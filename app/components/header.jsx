@@ -3,7 +3,7 @@
 import {addMonths, subMonths} from 'date-fns';
 import { useState } from 'react';
 import styles from "../styles/header.module.css" ;
-
+import Image from 'next/image';
 export default function Header() {
    const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -15,30 +15,58 @@ export default function Header() {
       setCurrentDate(prev => addMonths(prev, 1));
    }
 
-   const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`;
+   const formattedDate = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월`;
 
    return (
       <div className={styles.container}>
          <div className={styles.topBar}>
             <button>
-               <img src="/images/search.svg" alt="search" />
+               <Image
+               src="/images/search.svg" 
+               alt="search"
+               width={25}
+               height={25}
+               className={styles.Images}
+               />
             </button>
-            <span>가계부</span>
+            <span className={styles.mainText}>가계부</span>
             <button>
-               <img src="/images/favorite.svg" alt="favorite" />
+               <Image
+               src="/images/favorite.svg" 
+               alt="favorite"
+               width={25}
+               height={25} 
+               className={styles.Images}
+               />
             </button>
             <button>
-               <img src="/images/filter.svg" alt="filter" />
+               <Image
+               src="/images/filter.svg" 
+               alt="filter"
+               width={25}
+               height={25} 
+               className={styles.Images}
+               />
             </button>
          </div>
 
          <div className={styles.arrowButtons}>
             <button onClick={handlePrevMonth}>
-               <img src="/images/arrow-back.svg" alt="prev" />
+               <Image 
+               src="/images/arrow-back.svg" 
+               alt="prev"
+               width={20}
+               height={20} 
+               />
             </button>
             <span className={styles.dateText}>{formattedDate}</span>
             <button onClick={handleNextMonth}>
-               <img src="/images/arrow-next.svg" alt="next" />
+               <Image
+               src="/images/arrow-next.svg" 
+               alt="next"
+               width={20}
+               height={20} 
+               />
             </button>
          </div>
       </div>

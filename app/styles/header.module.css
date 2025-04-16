@@ -15,7 +15,7 @@
    justify-content: space-between; /* 양 끝에 버튼들을 배치 */
    align-items: center;
    width: 100%;
-   height: 50px;         
+   height: 40px;         
    padding: 0 15px;
 }
 
@@ -26,23 +26,27 @@
    padding: 0; /* 버튼 안의 여백 제거 */
 }
 
-.topBar img {
+.Images {
    max-width: 100%; /* 이미지가 버튼 크기에 맞게 조정 */
    height: auto;
+   padding: 1px;
+   margin: 0.2em;
+
 }
 
-/* 가계부 텍스트 가운데 정렬 */
-.topBar span {
+/* 여기 가계부 span */
+.mainText {
    font-size: 1.2rem;
    font-weight: bold;
    text-align: center;
+   margin-left: 26px;
    flex-grow: 1; /* 텍스트를 가운데로 배치하기 위해 flex-grow 사용 */
 }
 
 /* 두 번째 div 스타일 */
 .arrowButtons {
    display: flex;
-   justify-content: space-between; /* 양 끝에 화살표 버튼 배치 */
+   justify-content: space-between; 
    align-items: center;
    width: 100%;
    padding: 0 15px;
@@ -53,12 +57,12 @@
    background: none;
    border: none;
    cursor: pointer;
-   padding: 0;
-   height: 40px; /* 버튼 크기 조정 */
+   padding: 0.3em;
+   height: 40px;
 }
 
 .arrowButtons img {
-   width: 20px; /* 버튼 이미지 크기, 날짜 텍스트와 비슷하게 맞춤 */
+   width: 20px; 
    height: auto;
    margin: 0 5px 0 5px;
 }
@@ -67,6 +71,6 @@
    font-size: 1.2rem;
    font-weight: bold;
    text-align: center;
-   margin: 0 20px; /* 양쪽 화살표 버튼과 날짜 사이의 여백을 만듦 */
-   flex-grow: 1; /* 가운데 정렬을 위해 flex-grow 사용 */
+   margin: 0 20px; 
+   flex-grow: 1;
 }
