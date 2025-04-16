@@ -4,48 +4,77 @@ import React, { useState } from "react";
 import "../styles/input-assets.css"; // 사용자 정의 스타일 파일
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker 스타일 파일을 import
+import { useData } from '../contexts/DataContext';
 
 
 export default function InputAssets() {
-  const [activeTab, setActiveTab] = useState("지출"); // 활성화된 탭 상태
-  const [headerText, setHeaderText] = useState("지출"); // 상단 텍스트 상태
-  const [categoryList, setCategoryList] = useState(["편의점", "카페", "음식점","담배","구독료"]); // 분류 버튼 목록
-  const [assetList, setAssetList] = useState(["토스뱅크", "카카오뱅크", "농협", "IBK기업", "신한"])
-  const [selectedCategory, setSelectedCategory] = useState(""); // 선택된 분류
-  const [selectedAsset, setSelectedAsset] = useState(""); // 선택된 자산 상태
-  const [selectedDate, setSelectedDate] = useState(new Date()); // 선택된 날짜 상태
-  const [amount, setAmount] = useState(""); // 금액 필드 값 (실제 수식)
-  const [calculatorInput, setCalculatorInput] = useState(""); // 계산기 입력값
-  const [content, setContent] = useState(""); // 내용 필드 값
-  const [categoryLabel, setCategoryLabel] = useState("분류"); // 분류 라벨 상태
-  const [assetLabel, setAssetLabel] = useState("자산"); // 자산 라벨 상태
-  const [visibleUI, setVisibleUI] = useState("calculator"); // 현재 표시 중인 UI 상태 (초기값: 계산기)
+  // 활성화된 탭 상태
+  const [activeTab, setActiveTab] = useState("지출"); 
+  // 상단 텍스트 상태
+  const [headerText, setHeaderText] = useState("지출"); 
+  // 공용 데이터 
+  const {revenuList, setRevenuList} = useData();
+  const {expensesList, setExpensesList} = useData();
+  const {assetList, setAssetList} = useData();
+  // 분류 버튼 목록
+  const [categoryList, setCategoryList] = useState(); 
+  // 선택된 분류
+  const [selectedCategory, setSelectedCategory] = useState(""); 
+  // 선택된 자산 상태
+  const [selectedAsset, setSelectedAsset] = useState(""); 
+  // 선택된 날짜 상태
+  const [selectedDate, setSelectedDate] = useState(new Date()); 
+  // 금액 필드 값 (실제 수식)
+  const [amount, setAmount] = useState(""); 
+  // 계산기 입력값
+  const [calculatorInput, setCalculatorInput] = useState(""); 
+  // 내용 필드 값
+  const [content, setContent] = useState(""); 
+  // 분류 라벨 상태
+  const [categoryLabel, setCategoryLabel] = useState("분류"); 
+  // 자산 라벨 상태
+  const [assetLabel, setAssetLabel] = useState("자산"); 
+  // 현재 표시 중인 UI 상태 (초기값: 계산기)
+  const [visibleUI, setVisibleUI] = useState("calculator"); 
 
+  // 계산기 로직
   const formatCurrencyWithExpression = (value) => {
-    if (!value) return ""; // 값이 없으면 빈 문자열 반환
-    return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "원"; // 숫자에 ',' 추가 및 '원' 붙이기
+    // 값이 없으면 빈 문자열 반환
+    if (!value) return ""; 
+    // 숫자에 ',' 추가 및 '원' 붙이기
+    return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "원"; 
   };
 
   const handleCalculatorClick = (value) => {
     if (value === "=" || value === "확인") {
       calculateResult();
     } else if (value === "C") {
-      setCalculatorInput(""); // 입력 초기화
-      setAmount(""); // 금액 필드도 초기화
+      // 입력 초기화
+      setCalculatorInput(""); 
+      // 금액 필드도 초기화
+      setAmount(""); 
     } else {
-      const updatedInput = calculatorInput + value; // 기존 입력값에 새 값을 추가
-      setCalculatorInput(updatedInput); // 계산기 입력값 업데이트
-      setAmount(updatedInput); // 금액 필드에도 실시간 반영
+      // 기존 입력값에 새 값을 추가
+      const updatedInput = calculatorInput + value; 
+      // 계산기 입력값 업데이트
+      setCalculatorInput(updatedInput); 
+      // 금액 필드에도 실시간 반영
+      setAmount(updatedInput); 
     }
   };
 
   const calculateResult = () => {
     try {
-      const sanitizedInput = calculatorInput.replace(/x/g, "*").replace(/÷/g, "/"); // 수식을 안전하게 변환 (x -> *, ÷ -> /)
-      const result = eval(sanitizedInput); // 수식 계산
-      setAmount(result.toString()); // 결과를 숫자로 저장
-      setCalculatorInput(result.toString()); // 계산기 입력 초기화 후 결과 유지
-      setVisibleUI(""); // UI 숨김
+      // 수식을 안전하게 변환 (x -> *, ÷ -> /)
+      const sanitizedInput = calculatorInput.replace(/x/g, "*").replace(/÷/g, "/"); 
+      // 수식 계산
+      const result = eval(sanitizedInput); 
+      // 결과를 숫자로 저장
+      setAmount(result.toString()); 
+      // 계산기 입력 초기화 후 결과 유지
+      setCalculatorInput(result.toString()); 
+      // UI 숨김
+      setVisibleUI(""); 
     } catch (error) {
       alert("잘못된 수식입니다.");
     }
@@ -56,15 +85,16 @@ export default function InputAssets() {
     setHeaderText(tab);
 
     if (tab === "수입") {
-      setCategoryList(["용돈", "금융소득", "월급"]);
+      // setCategoryList(["테스트", "금융소득", "월급"]);
+      setCategoryList(revenuList);
       setCategoryLabel("분류");
       setAssetLabel("자산");
     } else if (tab === "지출") {
-      setCategoryList(["편의점", "카페", "음식점","담배","구독료"]);
+      setCategoryList(expensesList);
       setCategoryLabel("분류");
       setAssetLabel("자산");
     } else if (tab === "이체") {
-      setCategoryList(["토스뱅크", "카카오 뱅크"]);
+      setCategoryList(assetList);
       setCategoryLabel("출금");
       setAssetLabel("입금");
     }
