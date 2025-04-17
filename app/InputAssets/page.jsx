@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import "../styles/input-assets.css"; // 사용자 정의 스타일 파일
+import styles from "./InputAssets.module.css"; // 사용자 정의 스타일 파일
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // react-datepicker 스타일 파일을 import
 import { useData } from '../contexts/DataContext';
+import Link from "next/link";
 
 
 export default function InputAssets() {
@@ -166,70 +167,92 @@ export default function InputAssets() {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       {/* Header */}
-      <div className="header">
+      <div className={styles.header}>
         <span>가계부</span>
         <span>{headerText}</span>
         <span>별표</span>
       </div>
 
       {/* Tabs */}
-      <div className="tabs">
+      <div className={styles.tabs}>
         {["수입", "지출", "이체"].map((tab) => (
-          <button key={tab} className={activeTab === tab ? "active" : ""} onClick={() => handleTabChange(tab)}>
+          <button
+            key={tab}
+            className={activeTab === tab ? "styles.active" : ""}
+            onClick={() => handleTabChange(tab)}
+          >
             {tab}
           </button>
         ))}
       </div>
 
       {/* Inline Form Section */}
-      <div className="form-inline">
+      <div className={styles["form-inline"]}>
         <div>
           <span>날짜</span>
-          <input type="text" value={selectedDate.toLocaleDateString()} readOnly onClick={handleDateClick} />
+          <input
+            type="text"
+            value={selectedDate.toLocaleDateString()}
+            readOnly
+            onClick={handleDateClick}
+          />
         </div>
         <div>
           <span>금액</span>
-          <input 
-            type="text" 
-            value={amount ? formatCurrencyWithExpression(amount) : ""} 
-            onChange={handleAmountChange} 
-            onKeyDown={handleKeyPressOnAmountField} 
-            onClick={handleAmountClick} 
+          <input
+            type="text"
+            value={amount ? formatCurrencyWithExpression(amount) : ""}
+            onChange={handleAmountChange}
+            onKeyDown={handleKeyPressOnAmountField}
+            onClick={handleAmountClick}
           />
         </div>
         <div>
           <span>{categoryLabel}</span>
-          <input type="text" value={selectedCategory} readOnly onClick={handleCategoryClick} />
-        </div>
-        <div>
-          <span>{assetLabel}</span>
-          <input type="text" value={selectedAsset} readOnly onClick={handleAssetClick} />
-        </div>
-        <div>
-          <span>내용</span>
-          <input 
-            type="text" 
-            value={content} 
-            onChange={handleContentChange} 
+          <input
+            type="text"
+            value={selectedCategory}
+            readOnly
+            onClick={handleCategoryClick}
           />
         </div>
         <div>
-          <button className="store-btn">저장</button>
+          <span>{assetLabel}</span>
+          <input
+            type="text"
+            value={selectedAsset}
+            readOnly
+            onClick={handleAssetClick}
+          />
+        </div>
+        <div>
+          <span>내용</span>
+          <input type="text" value={content} onChange={handleContentChange} />
+        </div>
+        <div>
+          <button className={styles["store-btn"]}>저장</button>
         </div>
       </div>
 
       {/* Conditional Components */}
       {visibleUI === "datePicker" && (
-        <div className="date-picker">
+        <div>
           {/* 달력 UI */}
-          <DatePicker selected={selectedDate} onChange={(date) => {setSelectedDate(date); resetUI();}} inline />
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+              resetUI();
+            }}
+            inline
+          />
         </div>
       )}
 
       {visibleUI === "category" && (
-        <div className="category-buttons">
+        <div className={styles["category-buttons"]}>
           {categoryList.map((category) => (
             <button key={category} onClick={() => selectCategory(category)}>
               {category}
@@ -239,25 +262,44 @@ export default function InputAssets() {
       )}
 
       {visibleUI === "asset" && (
-        <div className="category-buttons">
-          {assetList.map((asset) => (
-            <button key={asset} onClick={() => selectAsset(asset)}>
-              {asset}
-            </button>
-          ))}
+        <div>
+          <div>
+            <Link href='/Categories'>추가</Link>
+          </div>
+          <div className={styles["category-buttons"]}>
+            {assetList.map((asset) => (
+              <button key={asset} onClick={() => selectAsset(asset)}>
+                {asset}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
       {(visibleUI === "" || visibleUI === "calculator") && (
-        <div className="calculator">
+        <div className={styles.calculator}>
           {/* 계산기 UI */}
-          <div className="calculator-grid">
+          <div className={styles["calculator-grid"]}>
             {[
-              "+","-","x","÷",
-              "7","8","9","=",
-              "4","5","6",".",
-              "1","2","3","C",
-              "00","0","000",
+              "+",
+              "-",
+              "x",
+              "÷",
+              "7",
+              "8",
+              "9",
+              "=",
+              "4",
+              "5",
+              "6",
+              ".",
+              "1",
+              "2",
+              "3",
+              "C",
+              "00",
+              "0",
+              "000",
               "확인",
             ].map((item) => (
               <button key={item} onClick={() => handleCalculatorClick(item)}>
