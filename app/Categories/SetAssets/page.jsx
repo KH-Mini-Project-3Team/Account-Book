@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
-import { useData } from '../contexts/DataContext';
+import { useData } from '../../contexts/DataContext';
 import React, { useState } from "react";
-export default function Categorys(){
+export default function SetAssets(){
   const [selectedAsset, setSelectedAsset] = useState("");
   const [newAsset, setNewAsset] = useState(""); 
   const {assetList, setAssetList} = useData();
