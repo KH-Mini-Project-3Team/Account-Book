@@ -36,7 +36,7 @@
 
 /* 여기 가계부 span */
 .mainText {
-   font-size: 1.2rem;
+   font-size: 1.8rem;
    font-weight: bold;
    text-align: center;
    margin-left: 26px;
@@ -68,7 +68,7 @@
 }
 
 .dateText {
-   font-size: 1.2rem;
+   font-size: 1.6rem;
    font-weight: bold;
    text-align: center;
    margin: 0 20px; 

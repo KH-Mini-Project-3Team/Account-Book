@@ -23,7 +23,7 @@ export default function Navigation() {
                </Link>
             </li>
             <li>
-               <Link href="/" className={styles.navLink}>
+               <Link href="/MyAssets" className={styles.navLink}>
                   <div className={styles.navItem}>
                      <Image 
                      src="/images/mymoney.svg" 
