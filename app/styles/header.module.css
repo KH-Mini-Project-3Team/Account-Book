@@ -1,0 +1,76 @@
+.container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   max-width: 430px; /* 아이폰 15 Pro 모델의 화면 너비 기준 */
+   margin: 0 auto; /* 중앙 정렬 */
+   background-color: rgb(243, 215, 211);/* 하얀색 배경 */
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+}
+
+/* 첫 번째 div (상단 바) 스타일 */
+.topBar {
+   display: flex;
+   justify-content: space-between; /* 양 끝에 버튼들을 배치 */
+   align-items: center;
+   width: 100%;
+   height: 40px;         
+   padding: 0 15px;
+}
+
+.topBar button {
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 0; /* 버튼 안의 여백 제거 */
+}
+
+.Images {
+   max-width: 100%; /* 이미지가 버튼 크기에 맞게 조정 */
+   height: auto;
+   padding: 1px;
+   margin: 0.2em;
+
+}
+
+/* 여기 가계부 span */
+.mainText {
+   font-size: 1.8rem;
+   font-weight: bold;
+   text-align: center;
+   margin-left: 26px;
+   flex-grow: 1; /* 텍스트를 가운데로 배치하기 위해 flex-grow 사용 */
+}
+
+/* 두 번째 div 스타일 */
+.arrowButtons {
+   display: flex;
+   justify-content: space-between; 
+   align-items: center;
+   width: 100%;
+   padding: 0 15px;
+   margin-top: 10px;
+}
+
+.arrowButtons button {
+   background: none;
+   border: none;
+   cursor: pointer;
+   padding: 0.3em;
+   height: 40px;
+}
+
+.arrowButtons img {
+   width: 20px; 
+   height: auto;
+   margin: 0 5px 0 5px;
+}
+
+.dateText {
+   font-size: 1.6rem;
+   font-weight: bold;
+   text-align: center;
+   margin: 0 20px; 
+   flex-grow: 1;
+}
