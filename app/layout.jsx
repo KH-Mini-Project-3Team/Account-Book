@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             </nav>
           </div>
 
-          {children}
+        
         </DataProvider>
       </body>
     </html>

@@ -1,0 +1,172 @@
+/* 상단 타이틀 스타일 */
+.title {
+  color: black;                     /* 글자색 검정 */
+  text-align: center;              /* 중앙 정렬 */
+  margin-top: 1rem;                /* 위쪽 여백 */
+}
+
+/* 총 자산 표시 스타일 */
+.totalAssets {
+  color: black;                    /* 글자색 검정 */
+  text-align: center;              /* 중앙 정렬 */
+  margin-top: 0.5rem;              /* 위쪽 여백 */
+}
+
+/* 각각의 자산 항목 카드 스타일 */
+.assetCard {
+  border: 1px solid #eee;          /* 연한 테두리 */
+  border-radius: 1rem;             /* 둥근 모서리 */
+  padding: 1rem;                   /* 내부 여백 */
+  margin-bottom: 1.5rem;           /* 아래 여백 */
+  background-color: #fff;          /* 배경 흰색 */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);  /* 약한 그림자 */
+  transition: all 0.3s ease;       /* 부드러운 애니메이션 */
+  overflow: hidden;                /* 내용 넘칠 경우 숨김 */
+  max-width: 400px;                /* 최대 너비 */
+  width: 100%;                     /* 가로 100% */
+  display: flex;
+  flex-direction: column;         /* 세로 정렬 */
+  align-items: center;            /* 가운데 정렬 */
+}
+
+/* 카드 안의 상단 내용 레이아웃 (색점, 텍스트, 버튼 등 포함) */
+.cardInner {
+  display: flex;
+  align-items: center;            /* 수직 중앙 정렬 */
+  justify-content: space-between;/* 좌우 간격 최대화 */
+  width: 100%;
+  flex-wrap: wrap;                /* 줄 넘침 허용 */
+  gap: 10px;
+}
+
+/* 레이블과 금액이 함께 있는 박스 */
+.labelBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: space-between;
+}
+
+/* 금액 텍스트 스타일 */
+.labelBox p {
+  border-radius: 2rem;
+  font-family: 'Courier New', Courier, monospace; /* 모노 폰트 */
+  font-size: 1.2rem;
+  color: #000;                   /* 💡 검정색으로 설정 */
+}
+
+/* 항목 제목 스타일 */
+.labelBox h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #000;                   /* 검정색 */
+}
+
+/* 도넛 차트 옆 색깔 점 */
+.colorDot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;           /* 동그라미 */
+}
+
+/* 차트 전체 감싸는 영역 */
+.chartWrapper {
+  display: flex;
+  justify-content: center;      /* 가로 가운데 정렬 */
+  align-items: center;
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 300px;             /* 최대 너비 */
+  margin-left: auto;
+  margin-right: auto;          /* 중앙 배치 */
+}
+
+/* 레이블 텍스트 (미사용되거나 예전 코드일 수 있음) */
+.labelText {
+  text-align: left;
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* 레이블 제목 */
+.labelText h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* 레이블 금액 */
+.labelText p {
+  margin: 5px 0 0;
+  font-size: 1rem;
+  color: #0a0a0a;               /* 진한 회색 텍스트 */
+}
+
+/* "보기/닫기" 토글 버튼 */
+.toggleButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #36A2EB;   /* 파란색 배경 */
+  color: #fff;                 /* 흰색 텍스트 */
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-start;      /* 왼쪽 정렬 */
+  font-size: 0.9rem;
+}
+
+/* 슬라이드 영역 기본 상태 (닫힘) */
+.slideContent {
+  overflow: hidden;            /* 넘침 숨김 */
+  transition: max-height 0.3s ease-in-out;
+  max-height: 0;               /* 기본은 높이 0 */
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 슬라이드 열렸을 때 추가 스타일 */
+.slideContentExpanded {
+  max-height: 500px;           /* 충분히 큰 높이 */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: black;                /* 텍스트 색상 */
+}
+
+/* 상세 항목 카드 (은행, 주식, 용돈 등) */
+.detailCard {
+  background-color: #fdfdfd;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+  display: flex;
+  justify-content: space-between; /* 좌우 정렬 */
+  margin-bottom: 10px;
+}
+
+/* 상세 카드의 첫 텍스트 (예: 은행 이름) 강조 */
+.detailCard span:first-child {
+  font-weight: bold;
+}
+
+/* 상세 항목 전체를 묶는 섹션 */
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* "수입/지출" 버튼 스타일 */
+.detailButton {
+  display: block;
+  margin: 1rem auto 2rem auto;  /* 가운데 정렬 */
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #FF6384;   /* 분홍색 배경 */
+  color: #fff;                 /* 흰색 텍스트 */
+  cursor: pointer;
+}
