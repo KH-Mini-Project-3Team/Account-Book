@@ -1,4 +1,4 @@
-"use client"; // Next.js에서 클라이언트 컴포넌트로 동작하도록 설정
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";

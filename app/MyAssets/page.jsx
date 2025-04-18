@@ -1,24 +1,30 @@
-//오늘 일단 페이지에서 레이아웃만 어떻게 구현되는지 확인하는 느낌으로 만들었구 
-//css는 따로 styles에 빼서 코드 가독성 좋게할 예정 
-//슬라이드 박스 안에 내용이 먼가 부족한 느낌
+// 오늘 일단 페이지에서 레이아웃만 어떻게 구현되는지 확인하는 느낌으로 만들었구
+// css는 따로 styles에 빼서 코드 가독성 좋게할 예정
+// 슬라이드 박스 안에 내용이 먼가 부족한 느낌
+
 "use client";
 import React, { useState } from "react";
 import DonutChart from "./components/donutchart"; // DonutChart 컴포넌트 임포트
 import { useRouter } from "next/navigation";
+import { globalConfig } from "../config/globalConfig"; // 글로벌 자산 데이터 임포트
 
 export default function MyAssetsPage() {
-  // 일단 자산 데이터를 어떻게 해야할지 생각이 안나서 임의로 데이터를 만들어서 어떻게 구현되는지 알아보기 위해서 만들어 봤습니다
-  // 자산 데이터 (계좌/현금, 주식, 용돈, 코인)
+  // globalConfig에서 가져온 용돈 데이터
+  const allowanceTotal = globalConfig
+    .filter((item) => item.type === "income" && item.category === "용돈")
+    .reduce((sum, item) => sum + item.price, 0);
+
+  // 💡 자산 데이터 구성 (기존과 동일하되, 용돈은 dynamic하게 설정)
   const assetData = {
     labels: ["계좌/현금", "주식", "용돈", "코인"],
-    values: [400000, 120000, 80000, 20000],
+    values: [400000, 120000, allowanceTotal, 20000],
   };
 
-  const router = useRouter();
   // 페이지 이동 함수
-  const goToAssetDetail = () => {
-    router.push("/MyAssets/asset-detail");
-  };
+  const router = useRouter();
+    const goToAssetDetail = () => {
+      router.push("/MyAssets/asset-detail");
+    };
 
   // 총 자산 계산 (모든 자산 항목의 합)
   const totalAssets = assetData.values.reduce((acc, value) => acc + value, 0);
@@ -30,30 +36,23 @@ export default function MyAssetsPage() {
   // 세부 정보 표시 상태 (슬라이드 열림 여부)
   const [expanded, setExpanded] = useState(null); // null = 아무것도 열려 있지 않음
 
-
-
-  // 여기도 일단 임의 데이터를 집어넣어 만들어봤습니다
-  // 계좌/현금 세부 정보 (각 은행의 금액)
+  // 계좌/현금 세부 정보 (각 은행의 금액) - 임의 데이터
   const cashDetails = [
     { bank: "농협", amount: 100000 },
     { bank: "카카오뱅크", amount: 150000 },
     { bank: "토스뱅크", amount: 150000 },
   ];
 
-  // 주식 세부 정보 (각 종목의 금액)
+  // 주식 세부 정보 (각 종목의 금액) - 임의 데이터
   const stockDetails = [
     { stock: "삼성전자", amount: 50000 },
     { stock: "카카오", amount: 30000 },
     { stock: "네이버", amount: 20000 },
   ];
 
-  // 세부 정보 표시 상태를 토글하는 함수
+  // 슬라이드 토글 함수
   const toggleExpanded = (label) => {
-    if (expanded === label) {
-      setExpanded(null); // 이미 열려있으면 닫음
-    } else {
-      setExpanded(label); // 열려 있지 않으면 열기
-    }
+    setExpanded((prev) => (prev === label ? null : label));
   };
 
   return (
@@ -98,7 +97,7 @@ export default function MyAssetsPage() {
             gap: "20px",
           }}
         >
-          {/* 👇 카테고리 버튼 추가 👇 */}
+          {/* 수입/지출 페이지 이동 버튼 */}
           <button
             onClick={goToAssetDetail}
             style={{
@@ -115,6 +114,8 @@ export default function MyAssetsPage() {
           >
             수입 / 지출
           </button>
+
+          {/* 각 자산 항목 표시 */}
           {assetData.labels.map((label, index) => (
             <div
               key={index}
@@ -122,60 +123,57 @@ export default function MyAssetsPage() {
                 backgroundColor: "white",
                 border: "2px solid #ccc",
                 padding: "1rem",
-                width: "100%", // 모바일에서 적절한 크기로 설정
-                maxWidth: "400px", // 최대 너비 제한
+                width: "100%",
+                maxWidth: "400px",
                 borderRadius: "20px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 display: "flex",
-                flexDirection: "column", // 세로로 배치
+                flexDirection: "column",
                 alignItems: "center",
               }}
             >
-              {/* 색상 + 라벨 + 금액 표시 */}
+              {/* 색상 원 + 라벨 + 금액 + 보기 버튼 */}
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "100%",
-                  flexWrap: "wrap", // 모바일에서는 텍스트 줄 바꿈
+                  flexWrap: "wrap",
                 }}
               >
-                {/* 색상 원, 라벨 및 금액 표시 */}
-                <div
+               <div
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: "10px",
                     textAlign: "left",
                     width: "100%",
-                    justifyContent: "space-between", // 버튼과 텍스트가 양 끝으로 배치
+                    justifyContent: "space-between",
                   }}
-                >
-                  {/* 색상 원 */}
+              >
                   <div
                     style={{
                       width: "20px",
                       height: "20px",
-                      backgroundColor: chartColors[index] || "#ccc", // 차트에서 색상 가져오기
+                      backgroundColor: chartColors[index] || "#ccc",
                       borderRadius: "50%",
                     }}
                   ></div>
-                  {/* 자산 라벨과 금액 */}
-                  <div
+                 <div
                     style={{
                       textAlign: "left",
                       marginRight: "10px",
-                      flex: 1, // 텍스트 영역이 남은 공간을 차지하도록
+                      flex: 1,
                     }}
-                  >
+                 >
                     <h3 style={{ margin: 0 }}>{label}</h3>
                     <p style={{ margin: "5px 0 0" }}>
                       {assetData.values[index].toLocaleString()} 원
                     </p>
                   </div>
 
-                  {/* 오른쪽: '보기' 버튼 */}
+                  {/* 슬라이드 열기 버튼 */}
                   <button
                     style={{
                       padding: "0.5rem 1rem",
@@ -185,47 +183,94 @@ export default function MyAssetsPage() {
                       color: "#fff",
                       cursor: "pointer",
                       marginTop: "10px",
-                      alignSelf: "flex-start", // 오른쪽 정렬
+                      alignSelf: "flex-start",
                     }}
-                    onClick={() => toggleExpanded(label)} // 클릭 시 슬라이드 열림/닫힘
+                    onClick={() => toggleExpanded(label)}
                   >
                     {expanded === label ? "닫기" : "보기"}
                   </button>
                 </div>
               </div>
 
-              {/* 세부 정보 슬라이드 (보기 버튼을 누르면 나타나는 항목들) */}
+              {/* 슬라이드 세부 내용 표시 영역 */}
               <div
                 style={{
-                  maxHeight: expanded === label ? "500px" : "0", // 슬라이드 효과
+                  maxHeight: expanded === label ? "500px" : "0",
                   overflow: "hidden",
-                  transition: "max-height 0.3s ease-in-out", // 애니메이션
+                  transition: "max-height 0.3s ease-in-out",
                   marginTop: "1rem",
                   paddingLeft: "20px",
                   paddingRight: "20px",
                   width: "100%",
                 }}
               >
-                {/* 계좌/현금 항목의 세부 정보 */}
+                {/* 각 카테고리별 세부 내용 렌더링 */}
                 {label === "계좌/현금" && expanded === "계좌/현금" && (
-                  <ul>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                     {cashDetails.map((item, index) => (
-                      <li key={index} style={{ textAlign: "left" }}>
-                        {item.bank}: {item.amount.toLocaleString()} 원
-                      </li>
+                      <div
+                        key={index}
+                        style={{
+                          backgroundColor: "#fdfdfd",
+                          padding: "12px 16px",
+                          borderRadius: "12px",
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                          border: "1px solid #eee",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span style={{ fontWeight: "bold" }}>{item.bank}</span>
+                        <span>{item.amount.toLocaleString()} 원</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 )}
 
-                {/* 주식 항목의 세부 정보 */}
-                {label === "주식" && expanded === "주식" && (
-                  <ul>
+              {label === "주식" && expanded === "주식" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                     {stockDetails.map((item, index) => (
-                      <li key={index} style={{ textAlign: "left" }}>
-                        {item.stock}: {item.amount.toLocaleString()} 원
-                      </li>
+                      <div
+                        key={index}
+                        style={{
+                          backgroundColor: "#fdfdfd",
+                          padding: "12px 16px",
+                          borderRadius: "12px",
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                          border: "1px solid #eee",
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span style={{ fontWeight: "bold" }}>{item.stock}</span>
+                        <span>{item.amount.toLocaleString()} 원</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
+              )}
+
+                {label === "용돈" && expanded === "용돈" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {globalConfig
+                      .filter((item) => item.type === "income" && item.category === "용돈")
+                      .map((item, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            backgroundColor: "#fdfdfd",
+                            padding: "12px 16px",
+                            borderRadius: "12px",
+                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+                            border: "1px solid #eee",
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span>{item.memo}</span>
+                          <span>{item.price.toLocaleString()} 원</span>
+                        </div>
+                      ))}
+                  </div>
                 )}
               </div>
             </div>
