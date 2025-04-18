@@ -18,7 +18,7 @@ export default function InputAssets() {
   const {expensesList, setExpensesList} = useData();
   const {assetList, setAssetList} = useData();
   // 분류 버튼 목록
-  const [categoryList, setCategoryList] = useState(revenuList); 
+  const [categoryList, setCategoryList] = useState(expensesList); 
   // 선택된 분류
   const [selectedCategory, setSelectedCategory] = useState(""); 
   // 선택된 자산 상태
@@ -32,7 +32,9 @@ export default function InputAssets() {
   // 내용 필드 값
   const [content, setContent] = useState(""); 
   // 분류 라벨 상태
-  const [categoryLabel, setCategoryLabel] = useState("분류"); 
+  const [categoryLabel, setCategoryLabel] = useState("분류");
+  // 분류 수정 URL
+  const [categoryURL, setCategoryURL] = useState("/Categories/SetExpend"); 
   // 자산 라벨 상태
   const [assetLabel, setAssetLabel] = useState("자산"); 
   // 현재 표시 중인 UI 상태 (초기값: 계산기)
@@ -89,14 +91,17 @@ export default function InputAssets() {
       // setCategoryList(["테스트", "금융소득", "월급"]);
       setCategoryList(revenuList);
       setCategoryLabel("분류");
+      setCategoryURL("/Categories/SetRevenu");
       setAssetLabel("자산");
     } else if (tab === "지출") {
       setCategoryList(expensesList);
       setCategoryLabel("분류");
+      setCategoryURL("/Categories/SetExpend");
       setAssetLabel("자산");
     } else if (tab === "이체") {
       setCategoryList(assetList);
       setCategoryLabel("출금");
+      setCategoryURL("/Categories/SetAssets");
       setAssetLabel("입금");
     }
 
@@ -180,7 +185,7 @@ export default function InputAssets() {
         {["수입", "지출", "이체"].map((tab) => (
           <button
             key={tab}
-            className={activeTab === tab ? "styles.active" : ""}
+            className={activeTab === tab ? styles.active : ""}
             onClick={() => handleTabChange(tab)}
           >
             {tab}
@@ -252,19 +257,24 @@ export default function InputAssets() {
       )}
 
       {visibleUI === "category" && (
-        <div className={styles["category-buttons"]}>
-          {categoryList.map((category) => (
-            <button key={category} onClick={() => selectCategory(category)}>
-              {category}
-            </button>
-          ))}
+        <div>
+          <div>
+            <Link href={categoryURL}>{categoryLabel} 추가</Link>
+          </div>
+          <div className={styles["category-buttons"]}>
+            {categoryList.map((category) => (
+              <button key={category} onClick={() => selectCategory(category)}>
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
       {visibleUI === "asset" && (
         <div>
           <div>
-            <Link href='/Categories'>추가</Link>
+            <Link href="/Categories/SetAssets">추가</Link>
           </div>
           <div className={styles["category-buttons"]}>
             {assetList.map((asset) => (
