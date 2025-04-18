@@ -40,7 +40,7 @@
    font-size: 1.8rem;
    font-weight: bold;
    text-align: center;
-   flex-grow: 1; /* 가운데 정렬을 위해 확장 */
+   flex-grow: 3.5; /* 가운데 정렬을 위해 확장 */
  }
  
  /* 오른쪽 아이콘 그룹 */

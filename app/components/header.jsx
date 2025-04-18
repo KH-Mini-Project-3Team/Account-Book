@@ -1,10 +1,16 @@
 "use client"
 
+import { usePathname } from 'next/navigation';
 import {addMonths, subMonths} from 'date-fns';
 import { useState } from 'react';
 import styles from "../styles/header.module.css" ;
 import Image from 'next/image';
+
+
 export default function Header() {
+   const Pathname = usePathname();
+   if(Pathname === "/inputheader") return null;
+
    const [currentDate, setCurrentDate] = useState(new Date());
 
    const handlePrevMonth = () => {

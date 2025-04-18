@@ -1,10 +1,14 @@
 "use client";
 
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/navigation.module.css'
 
 export default function Navigation() {
+   const Pathname = usePathname();
+   if(Pathname === "/inputheader") return null;
+
    return (
       <nav>
          <ul className={styles.navList}>
