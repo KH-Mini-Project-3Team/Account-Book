@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         <DataProvider>
           <div>
             <Header />
-            <main>{children}</main>
+            {children}
             <nav>
               <Navigation />
             </nav>
