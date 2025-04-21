@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import DonutChart from "./components/donutchart";
 import { useRouter } from "next/navigation";
 import { globalConfig } from "../config/globalConfig";
-import styles from "./MyAssets.module.css"; // 💡 CSS 모듈 임포트
+import styles from "./MyAssets.module.css";
 
 export default function MyAssetsPage() {
   const allowanceTotal = globalConfig
@@ -60,18 +60,19 @@ export default function MyAssetsPage() {
 
         {assetData.labels.map((label, index) => (
           <div key={index} className={styles.assetCard}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardInner}>
+            <div className={styles.cardInner}>
+              {/* 왼쪽: 도트 + 항목명 */}
+              <div className={styles.leftSide}>
                 <div
                   className={styles.colorDot}
                   style={{ backgroundColor: chartColors[index] || "#ccc" }}
                 ></div>
+                <h3>{label}</h3>
+              </div>
 
-                <div className={styles.labelBox}>
-                  <h3>{label}</h3>
-                  <p>{assetData.values[index].toLocaleString()} 원</p>
-                </div>
-
+              {/* 오른쪽: 금액 + 버튼 */}
+              <div className={styles.rightSide}>
+                <p>{assetData.values[index].toLocaleString()} 원</p>
                 <button
                   className={styles.toggleButton}
                   onClick={() => toggleExpanded(label)}
@@ -82,7 +83,9 @@ export default function MyAssetsPage() {
             </div>
 
             <div
-              className={`${styles.slideContent} ${expanded === label ? styles.slideContentExpanded : ""}`}
+              className={`${styles.slideContent} ${
+                expanded === label ? styles.slideContentExpanded : ""
+              }`}
             >
               {label === "계좌/현금" && expanded === "계좌/현금" && (
                 <div className={styles.detailList}>
@@ -109,7 +112,10 @@ export default function MyAssetsPage() {
               {label === "용돈" && expanded === "용돈" && (
                 <div className={styles.detailList}>
                   {globalConfig
-                    .filter((item) => item.type === "income" && item.category === "용돈")
+                    .filter(
+                      (item) =>
+                        item.type === "income" && item.category === "용돈"
+                    )
                     .map((item, index) => (
                       <div key={index} className={styles.detailCard}>
                         <span>{item.memo}</span>
