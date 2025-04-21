@@ -1,0 +1,116 @@
+/* AssetDetail.module.css */
+
+/* 자산 페이지 버튼 */
+.backButton {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  background-color: #36A2EB;   /* 분홍색 배경 */
+  color: #fff;                 /* 흰색 텍스트 */
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+/* 수입 / 지출 탭 버튼 감싸는 컨테이너 */
+.tabWrapper {
+  display: flex;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* 각 탭 버튼 (수입 or 지출) 공통 스타일 */
+.tabButton {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* 선택된 탭 버튼 스타일 */
+.tabSelected {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+/* 선택되지 않은 탭 버튼 스타일 */
+.tabUnselected {
+  background-color: #d6d6d6;
+  font-weight: normal;
+}
+
+/* 도넛 차트 크기 */
+.chartContainer {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+}
+
+
+/* 카테고리 & 정렬 셀렉트박스 감싸는 행 */
+.filterRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 셀렉트 박스 스타일 (카테고리, 정렬, 월 선택) */
+.select {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+/* 월 선택 셀렉트박스 감싸는 div */
+.monthSelectWrapper {
+  margin: 1rem 0;
+}
+
+/* 내역 리스트 전체 wrapper (ul 태그) */
+.listWrapper {
+  list-style: none;
+  padding: 0;
+}
+
+/* 개별 내역 카드 스타일 (li 태그) */
+.listItem {
+  border: 1px solid #eee;          /* 연한 테두리 */
+  border-radius: 1rem;             /* 둥근 모서리 */
+  padding: 1rem;                   /* 내부 여백 */
+  margin-bottom: 1.5rem;           /* 아래 여백 */
+  background-color: #fff;          /* 배경 흰색 */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);  /* 약한 그림자 */
+  transition: all 0.3s ease;       /* 부드러운 애니메이션 */
+  overflow: hidden;                /* 내용 넘칠 경우 숨김 */
+  max-width: 400px;                /* 최대 너비 */
+  width: 100%;                     /* 가로 100% */
+  display: flex;
+  flex-direction: column;         /* 세로 정렬 */
+  align-items: center;            /* 가운데 정렬 */
+}
+
+/* 내역 카드에서 금액 + 카테고리 부분 */
+.itemTitle {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+/* 내역 카드에서 날짜 + 메모 + 자산 정보 */
+.itemMeta {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* 더보기 / 접기 버튼 */
+.expandButton {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}

@@ -89,13 +89,6 @@
   margin-left: auto;
 }
 
-.leftside h3{
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin: 0;
-  color: #000; 
-}
-
 /* 차트 전체 감싸는 영역 */
 .chartWrapper {
   display: flex;
@@ -113,6 +106,7 @@
   text-align: left;
   flex: 1;
   margin-right: 10px;
+  color: #000;
 }
 
 /* 레이블 제목 */
@@ -170,6 +164,7 @@
   justify-content: space-between; /* 좌우 정렬 */
   margin-bottom: 10px;
 }
+
 
 /* 상세 카드의 첫 텍스트 (예: 은행 이름) 강조 */
 .detailCard span:first-child {

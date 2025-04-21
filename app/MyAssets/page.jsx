@@ -67,12 +67,12 @@ export default function MyAssetsPage() {
                   className={styles.colorDot}
                   style={{ backgroundColor: chartColors[index] || "#ccc" }}
                 ></div>
-                <h3>{label}</h3>
+                <h3 className={styles.labelText}>{label}</h3>
               </div>
 
               {/* 오른쪽: 금액 + 버튼 */}
               <div className={styles.rightSide}>
-                <p>{assetData.values[index].toLocaleString()} 원</p>
+                <p className={styles.labelText}>{assetData.values[index].toLocaleString()} 원</p>
                 <button
                   className={styles.toggleButton}
                   onClick={() => toggleExpanded(label)}
