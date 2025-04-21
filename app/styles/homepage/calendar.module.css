@@ -1,0 +1,62 @@
+.calendar{
+  display: flex;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center;
+  text-align: center;
+  
+  
+}
+
+.calendar table{
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar table thead tr{
+  height: 20px;
+  border: 1px solid gray;
+}
+
+.calendar table tbody tr{
+  text-align: left;
+  height: 140px;
+  vertical-align: top;
+  border: 1px solid gray;
+}
+
+.calendar table tbody tr td {
+  width: 14.3%;
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+
+.calendar table tbody tr td:nth-child(1) {
+  color: red;
+ }
+
+.calendar table tbody tr td:nth-child(7) {
+ color: blue;
+}
+
+
+.calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div{
+  position: relative;
+  height: 140px;
+}
+
+.calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div > div{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div > div > div:nth-child(1) {
+  color: blue;
+}
+.calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div > div > div:nth-child(2) {
+  color: red;
+}
