@@ -4,7 +4,9 @@
   "description": "기존 가계부를 좀 더 편리하게 사용할 수 있지 않을까? 라는 의문에서 나온 프로젝트 주제입니다.",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",
@@ -21,8 +23,14 @@
   "dependencies": {
     "moment": "^2.30.1",
     "next": "^15.3.0",
+    "chart.js": "^4.4.8",
+    "chartjs-plugin-annotation": "^3.1.0",
+    "date-fns": "^4.1.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-datepicker": "^8.3.0"
   },
   "devDependencies": {
     "@types/node": "22.14.0",
