@@ -5,6 +5,7 @@ import {addMonths, subMonths} from 'date-fns';
 import { useState } from 'react';
 import styles from "../styles/header.module.css" ;
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 export default function Header() {
@@ -26,15 +27,17 @@ export default function Header() {
    return (
       <div className={styles.container}>
          <div className={styles.topBar}>
+            <Link href="/" >
             <button>
                <Image
                src="/images/search.svg" 
-               alt="search"
+               alt="goBack"
                width={25}
                height={25}
                className={styles.Images}
                />
             </button>
+            </Link>
             <span className={styles.mainText}>가계부</span>
             <button>
                <Image
