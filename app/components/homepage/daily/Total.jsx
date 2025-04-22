@@ -7,7 +7,7 @@ export default function Total() {
 
   const march = globalConfig.filter(item => {
     const date = new Date(item.date);
-    return date.getMonth() === 2;
+    return date.getMonth() === 3;
   });
 
   const incomeTotal = march

@@ -163,6 +163,7 @@
   width: 20%;
   text-align: center;
   color: blue;
+  padding-left: 2%;
 }
 .dailyTotal ul:nth-child(2) li:nth-child(4){
   width: 20%;
@@ -215,6 +216,7 @@
   width: 20%;
   text-align: center;
   color: blue;
+  padding-left: 2%;
 }
 .dailyTotal ul:nth-child(3) li:nth-child(4){
   width: 20%;
