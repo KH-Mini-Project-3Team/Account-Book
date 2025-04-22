@@ -18,13 +18,11 @@ export default function RootLayout({ children }) {
         <DataProvider>
           <div className={styles.container}>
             <Header />
-            <main className={styles.mainContent}>{children}</main>
+            {children}
             <nav className={styles.navigation}>
               <Navigation />
             </nav>
           </div>
-
-          {children}
         </DataProvider>
       </body>
     </html>
