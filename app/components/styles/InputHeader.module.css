@@ -3,7 +3,7 @@
    flex-direction: column;
    align-items: center;
    width: 100%;
-   max-width: 430px;
+   max-width: 500px;
    margin: 0 auto;
    background-color: rgb(243, 215, 211);
    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -26,7 +26,13 @@
    cursor: pointer;
    padding: 0;
  }
- 
+ .backButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 8px;
+  cursor: pointer;
+}
  /* 이미지 스타일 (기존과 동일) */
  .images {
    max-width: 100%;
