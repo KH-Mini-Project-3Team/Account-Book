@@ -11,7 +11,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const DonutChart = ({ data, onColors }) => {
   useEffect(() => {
     // 색상 배열을 부모 컴포넌트로 전달 (한 번만 실행)
-    const chartColors = ["#4BC0C0", "#36A2EB", "#FFCE56", "#FF6384"];
+    const chartColors = ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"];
     if (onColors) {
       onColors(chartColors);
     }
@@ -27,7 +27,7 @@ const DonutChart = ({ data, onColors }) => {
     datasets: [
       {
         data: data.values,
-        backgroundColor: ["#4BC0C0", "#36A2EB", "#FFCE56", "#FF6384"], // 차트 색상
+        backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"], // 차트 색상
         borderWidth: 1,
       },
     ],

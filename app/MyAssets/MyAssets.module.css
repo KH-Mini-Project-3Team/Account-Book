@@ -190,3 +190,21 @@
   color: #fff;                 /* 흰색 텍스트 */
   cursor: pointer;
 }
+
+.income {
+  color: #0077ff;
+  font-weight: bold;
+}
+
+.expend {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.colorPickerWrapper {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

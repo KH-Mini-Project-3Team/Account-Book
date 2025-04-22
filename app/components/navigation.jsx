@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '../styles/navigation.module.css'
+import styles from './styles/navigation.module.css'
 
 export default function Navigation() {
    const Pathname = usePathname();
@@ -16,13 +16,14 @@ export default function Navigation() {
                <Link href="/" className={styles.navLink}>
                   <div className={styles.navItem}>
                   <Image 
-                  src="/images/home.svg" 
+                  src="/images/today.svg" 
                   alt="홈"
                   width={32}
                   height={32}
+                  
                   className={styles.navImage}
                   />        
-                  <span className={styles.navText}>홈</span>     
+                  <span className={styles.navText}>오늘날짜</span>     
                   </div>
                </Link>
             </li>
@@ -41,7 +42,7 @@ export default function Navigation() {
                </Link>
             </li>
             <li>
-               <Link href="/" className={styles.navLink}>
+               <Link href="/InputAssets" className={styles.navLink}>
                   <div className={styles.navItem}>
                      <Image
                      src="/images/graph.svg" 

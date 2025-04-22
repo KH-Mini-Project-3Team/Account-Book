@@ -1,14 +1,16 @@
 "use client"
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {addMonths, subMonths} from 'date-fns';
 import { useState } from 'react';
-import styles from "../styles/header.module.css" ;
+import styles from "./styles/header.module.css" ;
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 export default function Header() {
    const Pathname = usePathname();
+   const router = useRouter();
    if(Pathname === "/inputheader") return null;
 
    const [currentDate, setCurrentDate] = useState(new Date());
@@ -26,15 +28,17 @@ export default function Header() {
    return (
       <div className={styles.container}>
          <div className={styles.topBar}>
-            <button>
+            <Link href="/" >
+            <button onClick={() => router.back()}>
                <Image
-               src="/images/search.svg" 
-               alt="search"
+               src="/images/back.svg" 
+               alt="goBack"
                width={25}
                height={25}
                className={styles.Images}
                />
             </button>
+            </Link>
             <span className={styles.mainText}>가계부</span>
             <button>
                <Image

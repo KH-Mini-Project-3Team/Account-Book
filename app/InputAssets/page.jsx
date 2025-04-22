@@ -1,94 +1,159 @@
 "use client";
 
-import React, { useState } from "react";
-import styles from "./InputAssets.module.css"; // 사용자 정의 스타일 파일
+import React, { useState, useEffect } from "react";
+import styles from "./InputAssets.module.css";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // react-datepicker 스타일 파일을 import
-import { useData } from '../contexts/DataContext';
+import "react-datepicker/dist/react-datepicker.css";
+import { useData } from "../contexts/DataContext";
 import Link from "next/link";
+import Image from "next/image";
+import backImg from "@/public/images/arrow-left-circle.svg";
+import CategoryHeader from "./CategoryHeader";
+import { useRouter, useSearchParams } from "next/navigation";
 
+// 날짜를 yyyy-mm-dd 형식으로 변환하는 함수
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // 0~11이므로 +1
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 export default function InputAssets() {
-  // 활성화된 탭 상태
-  const [activeTab, setActiveTab] = useState("지출"); 
-  // 상단 텍스트 상태
-  const [headerText, setHeaderText] = useState("지출"); 
-  // 공용 데이터 
-  const {revenuList, setRevenuList} = useData();
-  const {expensesList, setExpensesList} = useData();
-  const {assetList, setAssetList} = useData();
-  // 분류 버튼 목록
-  const [categoryList, setCategoryList] = useState(expensesList); 
-  // 선택된 분류
-  const [selectedCategory, setSelectedCategory] = useState(""); 
-  // 선택된 자산 상태
-  const [selectedAsset, setSelectedAsset] = useState(""); 
-  // 선택된 날짜 상태
-  const [selectedDate, setSelectedDate] = useState(new Date()); 
-  // 금액 필드 값 (실제 수식)
-  const [amount, setAmount] = useState(""); 
-  // 계산기 입력값
-  const [calculatorInput, setCalculatorInput] = useState(""); 
-  // 내용 필드 값
-  const [content, setContent] = useState(""); 
-  // 분류 라벨 상태
-  const [categoryLabel, setCategoryLabel] = useState("분류");
-  // 분류 수정 URL
-  const [categoryURL, setCategoryURL] = useState("/Categories/SetExpend"); 
-  // 자산 라벨 상태
-  const [assetLabel, setAssetLabel] = useState("자산"); 
-  // 현재 표시 중인 UI 상태 (초기값: 계산기)
-  const [visibleUI, setVisibleUI] = useState("calculator"); 
+  // Next.js 라우터 및 쿼리 파라미터(id)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
-  // 계산기 로직
-  const formatCurrencyWithExpression = (value) => {
-    // 값이 없으면 빈 문자열 반환
-    if (!value) return ""; 
-    // 숫자에 ',' 추가 및 '원' 붙이기
-    return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "원"; 
-  };
+  // Context Data
+  const {
+    data,
+    updateItem,
+    deleteItem,
+    insertItem,
+    revenuList,
+    expensesList,
+    assetList,
+  } = useData();
 
-  const handleCalculatorClick = (value) => {
-    if (value === "=" || value === "확인") {
-      calculateResult();
-    } else if (value === "C") {
-      // 입력 초기화
-      setCalculatorInput(""); 
-      // 금액 필드도 초기화
-      setAmount(""); 
+  // id가 있으면 해당 요소 찾기
+  const initialData = id ? data.find((item) => item.id === Number(id)) : null;
+
+  // 상태 정의
+  const [activeTab, setActiveTab] = useState(
+    initialData
+      ? initialData.type === "income"
+        ? "수입"
+        : initialData.type === "expend"
+        ? "지출"
+        : "이체"
+      : "지출"
+  );
+  const [headerText, setHeaderText] = useState(
+    initialData
+      ? initialData.type === "income"
+        ? "수입"
+        : initialData.type === "expend"
+        ? "지출"
+        : "이체"
+      : "지출"
+  );
+  const [categoryList, setCategoryList] = useState(
+    initialData
+      ? initialData.type === "income"
+        ? revenuList
+        : initialData.type === "expend"
+        ? expensesList
+        : assetList
+      : expensesList
+  );
+  const [categoryLabel, setCategoryLabel] = useState(
+    activeTab === "이체" ? "출금" : "분류"
+  );
+  const [categoryURL, setCategoryURL] = useState(
+    activeTab === "수입"
+      ? "/Categories/SetRevenu"
+      : activeTab === "지출"
+      ? "/Categories/SetExpend"
+      : "/Categories/SetAssets"
+  );
+  const [assetLabel, setAssetLabel] = useState(
+    activeTab === "이체" ? "입금" : "자산"
+  );
+  const [assetURL, setAssetURL] = useState("/Categories/SetAssets");
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialData ? initialData.category : ""
+  );
+  const [selectedAsset, setSelectedAsset] = useState(
+    initialData ? initialData.asset : ""
+  );
+  const [selectedDate, setSelectedDate] = useState(
+    initialData ? new Date(initialData.date) : new Date()
+  );
+  const [amount, setAmount] = useState(
+    initialData ? initialData.price.toString() : ""
+  );
+  const [calculatorInput, setCalculatorInput] = useState(
+    initialData ? initialData.price.toString() : ""
+  );
+  const [content, setContent] = useState(initialData ? initialData.memo : "");
+  const [visibleUI, setVisibleUI] = useState("calculator");
+
+  // initialData나 id가 바뀔 때 상태 초기화
+  useEffect(() => {
+    if (initialData) {
+      setSelectedDate(new Date(initialData.date));
+      setAmount(initialData.price.toString());
+      setCalculatorInput(initialData.price.toString());
+      setSelectedCategory(initialData.category);
+      setSelectedAsset(initialData.asset);
+      setContent(initialData.memo);
+      if (initialData.type === "income") {
+        setActiveTab("수입");
+        setHeaderText("수입");
+        setCategoryList(revenuList);
+        setCategoryLabel("분류");
+        setCategoryURL("/Categories/SetRevenu");
+        setAssetLabel("자산");
+      } else if (initialData.type === "expend") {
+        setActiveTab("지출");
+        setHeaderText("지출");
+        setCategoryList(expensesList);
+        setCategoryLabel("분류");
+        setCategoryURL("/Categories/SetExpend");
+        setAssetLabel("자산");
+      } else {
+        // 이체
+        setActiveTab("이체");
+        setHeaderText("이체");
+        setCategoryList(assetList);
+        setCategoryLabel("출금");
+        setCategoryURL("/Categories/SetAssets");
+        setAssetLabel("입금");
+      }
     } else {
-      // 기존 입력값에 새 값을 추가
-      const updatedInput = calculatorInput + value; 
-      // 계산기 입력값 업데이트
-      setCalculatorInput(updatedInput); 
-      // 금액 필드에도 실시간 반영
-      setAmount(updatedInput); 
+      setSelectedDate(new Date());
+      setAmount("");
+      setCalculatorInput("");
+      setSelectedCategory("");
+      setSelectedAsset("");
+      setContent("");
+      setActiveTab("지출");
+      setHeaderText("지출");
+      setCategoryList(expensesList);
+      setCategoryLabel("분류");
+      setCategoryURL("/Categories/SetExpend");
+      setAssetLabel("자산");
     }
-  };
+    // eslint-disable-next-line
+  }, [id, data]);
 
-  const calculateResult = () => {
-    try {
-      // 수식을 안전하게 변환 (x -> *, ÷ -> /)
-      const sanitizedInput = calculatorInput.replace(/x/g, "*").replace(/÷/g, "/"); 
-      // 수식 계산
-      const result = eval(sanitizedInput); 
-      // 결과를 숫자로 저장
-      setAmount(result.toString()); 
-      // 계산기 입력 초기화 후 결과 유지
-      setCalculatorInput(result.toString()); 
-      // UI 숨김
-      setVisibleUI(""); 
-    } catch (error) {
-      alert("잘못된 수식입니다.");
-    }
-  };
-
+  // 탭 변경 핸들러 (이체는 기존 코드 유지)
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setHeaderText(tab);
 
     if (tab === "수입") {
-      // setCategoryList(["테스트", "금융소득", "월급"]);
       setCategoryList(revenuList);
       setCategoryLabel("분류");
       setCategoryURL("/Categories/SetRevenu");
@@ -105,77 +170,139 @@ export default function InputAssets() {
       setAssetLabel("입금");
     }
 
-    resetInputs(); // 날짜를 제외한 모든 값 초기화
+    resetInputs();
   };
 
+  // 입력값 초기화 (날짜 제외)
   const resetInputs = () => {
-    setSelectedCategory(""); // 분류 초기화
-    setSelectedAsset(""); // 자산 초기화
-    setAmount(""); // 금액 초기화
-    setCalculatorInput(""); // 계산기 입력값 초기화
-    setContent(""); // 내용 초기화 추가
-    resetUI(); // UI 숨김 처리
+    setSelectedCategory("");
+    setSelectedAsset("");
+    setAmount("");
+    setCalculatorInput("");
+    setContent("");
+    setVisibleUI("");
   };
 
-  const resetUI = () => {
-    setVisibleUI(""); // 모든 UI 숨김
+  // 계산기 로직
+  const formatCurrencyWithExpression = (value) => {
+    if (!value) return "";
+    return value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "원";
   };
 
-  const handleCategoryClick = () => {
-    resetUI();
-    setVisibleUI("category");
+  const handleCalculatorClick = (value) => {
+    if (value === "=" || value === "확인") {
+      calculateResult();
+    } else if (value === "C") {
+      setCalculatorInput("");
+      setAmount("");
+    } else {
+      const updatedInput = calculatorInput + value;
+      setCalculatorInput(updatedInput);
+      setAmount(updatedInput);
+    }
   };
 
+  const calculateResult = () => {
+    try {
+      const sanitizedInput = calculatorInput
+        .replace(/x/g, "*")
+        .replace(/÷/g, "/");
+      const result = eval(sanitizedInput);
+      setAmount(result.toString());
+      setCalculatorInput(result.toString());
+      setVisibleUI("");
+    } catch (error) {
+      alert("잘못된 수식입니다.");
+    }
+  };
+
+  // 저장/수정/삭제
+  const handleSave = () => {
+    if (!amount || !selectedCategory || !selectedAsset) {
+      alert("필수 항목을 입력하세요.");
+      return;
+    }
+    if (initialData) {
+      // 수정
+      updateItem(initialData.id, {
+        ...initialData,
+        date: formatDate(selectedDate),
+        price: Number(amount),
+        category: selectedCategory,
+        asset: selectedAsset,
+        memo: content,
+        type:
+          activeTab === "수입"
+            ? "income"
+            : activeTab === "지출"
+            ? "expend"
+            : initialData.type,
+      });
+    } else {
+      // 새로 저장
+      const newId =
+        data.length > 0 ? Math.max(...data.map((d) => d.id)) + 1 : 1;
+      insertItem({
+        id: newId,
+        date: formatDate(selectedDate),
+        price: Number(amount),
+        category: selectedCategory,
+        asset: selectedAsset,
+        memo: content,
+        type:
+          activeTab === "수입"
+            ? "income"
+            : activeTab === "지출"
+            ? "expend"
+            : "transfer", // 이체는 기존 코드 유지
+      });
+    }
+    router.push("/"); // 저장 후 메인으로 이동
+  };
+
+  const handleDelete = () => {
+    if (initialData) {
+      deleteItem(initialData.id);
+      router.push("/");
+    }
+  };
+
+  // 필드별 입력 핸들러
+  const handleCategoryClick = () => setVisibleUI("category");
   const selectCategory = (category) => {
-    setSelectedCategory(category); // 선택된 분류를 업데이트
-    resetUI(); // UI를 초기화하여 숨김 처리
+    setSelectedCategory(category);
+    setVisibleUI("");
   };
-
-  const handleAssetClick = () => {
-    resetUI();
-    setVisibleUI("asset");
-  };
-
+  const handleAssetClick = () => setVisibleUI("asset");
   const selectAsset = (asset) => {
-    setSelectedAsset(asset); // 선택된 자산을 업데이트
-    resetUI(); // UI를 초기화하여 숨김 처리
+    setSelectedAsset(asset);
+    setVisibleUI("");
   };
-
   const handleAmountClick = () => {
-    resetUI();
-    setAmount(""); // 금액 필드 값 초기화
-    setCalculatorInput(""); // 계산기 입력값 초기화
-    setVisibleUI("calculator"); // 계산기 UI 표시
+    setAmount("");
+    setCalculatorInput("");
+    setVisibleUI("calculator");
   };
-
-  const handleDateClick = () => {
-    resetUI();
-    setVisibleUI("datePicker");
-  };
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value); // 내용 필드 업데이트
-  };
-
+  const handleDateClick = () => setVisibleUI("datePicker");
+  const handleContentChange = (event) => setContent(event.target.value);
   const handleAmountChange = (event) => {
-    const inputValue = event.target.value.replace(/[^0-9+\-*/x÷]/g, ""); // 숫자와 연산자만 허용
-    if (!isNaN(inputValue[inputValue.length - 1]) || /[+\-*/x÷]/.test(inputValue[inputValue.length - 1])) {
-      setAmount(inputValue); // 실제 값은 수식으로 저장
-      setCalculatorInput(inputValue); // 계산기 입력값도 업데이트
-    }
+    const inputValue = event.target.value.replace(/[^0-9+\-*/x÷]/g, "");
+    setAmount(inputValue);
+    setCalculatorInput(inputValue);
   };
-
   const handleKeyPressOnAmountField = (event) => {
-    if (event.key === "Enter") {
-      calculateResult(); // 엔터를 누르면 계산 수행
-    }
+    if (event.key === "Enter") calculateResult();
   };
 
   return (
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
-        <span>가계부</span>
+        <span>
+          <Link href="/">
+            <Image src={backImg} alt="arrow" width={30} height={30} />
+          </Link>
+        </span>
         <span>{headerText}</span>
         <span>별표</span>
       </div>
@@ -193,7 +320,7 @@ export default function InputAssets() {
         ))}
       </div>
 
-      {/* Inline Form Section */}
+      {/* Form Section */}
       <div className={styles["form-inline"]}>
         <div>
           <span>날짜</span>
@@ -237,30 +364,49 @@ export default function InputAssets() {
           <input type="text" value={content} onChange={handleContentChange} />
         </div>
         <div>
-          <button className={styles["store-btn"]}>저장</button>
+          {/* 버튼 조건부 렌더링 */}
+          {initialData && (activeTab === "수입" || activeTab === "지출") ? (
+            <div className={styles["button-row"]}>
+              <button className={styles["half-btn"]} onClick={handleSave}>
+                수정
+              </button>
+              <button
+                className={`${styles["half-btn"]} ${styles["delete-btn"]}`}
+                onClick={handleDelete}
+              >
+                삭제
+              </button>
+            </div>
+          ) : (
+            <button className={styles["store-btn"]} onClick={handleSave}>
+              저장
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Conditional Components */}
+      {/* DatePicker */}
       {visibleUI === "datePicker" && (
         <div>
-          {/* 달력 UI */}
           <DatePicker
             selected={selectedDate}
             onChange={(date) => {
               setSelectedDate(date);
-              resetUI();
+              setVisibleUI("");
             }}
             inline
           />
         </div>
       )}
 
+      {/* Category 선택 */}
       {visibleUI === "category" && (
         <div>
-          <div>
-            <Link href={categoryURL}>{categoryLabel} 추가</Link>
-          </div>
+          <CategoryHeader
+            categoryLabel={categoryLabel}
+            categoryURL={categoryURL}
+            onClose={() => setVisibleUI("")}
+          />
           <div className={styles["category-buttons"]}>
             {categoryList.map((category) => (
               <button key={category} onClick={() => selectCategory(category)}>
@@ -271,11 +417,14 @@ export default function InputAssets() {
         </div>
       )}
 
+      {/* Asset 선택 */}
       {visibleUI === "asset" && (
         <div>
-          <div>
-            <Link href="/Categories/SetAssets">추가</Link>
-          </div>
+          <CategoryHeader
+            categoryLabel={assetLabel}
+            categoryURL={assetURL}
+            onClose={() => setVisibleUI("")}
+          />
           <div className={styles["category-buttons"]}>
             {assetList.map((asset) => (
               <button key={asset} onClick={() => selectAsset(asset)}>
@@ -286,9 +435,9 @@ export default function InputAssets() {
         </div>
       )}
 
+      {/* 계산기 UI */}
       {(visibleUI === "" || visibleUI === "calculator") && (
         <div className={styles.calculator}>
-          {/* 계산기 UI */}
           <div className={styles["calculator-grid"]}>
             {[
               "+",

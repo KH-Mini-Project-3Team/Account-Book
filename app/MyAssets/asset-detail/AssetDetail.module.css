@@ -1,17 +1,39 @@
 /* AssetDetail.module.css */
 
+
+/* 월 선택과 자산 현황 버튼을 가로로 배치하는 스타일 */
+.selectAndButtonWrapper {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 50px; /* 요소 간의 간격을 적절히 조정 */
+}
+
+/* 월 선택 셀렉트박스 감싸는 div */
+.monthSelectWrapper {
+  margin: 1rem 0; /* 기존 마진 유지 */
+}
+
+
 /* 자산 페이지 버튼 */
 .backButton {
-  display: block;
+  
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   border-radius: 10px;
   border: none;
-  background-color: #36A2EB;   /* 분홍색 배경 */
+  background-color: #36A2EB;   /* 블루 배경 */
   color: #fff;                 /* 흰색 텍스트 */
   cursor: pointer;
-  margin: 0 auto;
+  margin: 0;                   /* 이전에 적용된 margin: 0 auto 제거 */
+  margin-bottom: 1.5rem;         /* 여전히 버튼 아래 마진을 추가 */
+  margin-top: 1.5rem;
 }
+
+/* 버튼 hover 효과 */
+.backButton:hover {
+  background-color: #2c8fcc;   /* hover 시 더 어두운 파란색 */
+}
+
 
 /* 수입 / 지출 탭 버튼 감싸는 컨테이너 */
 .tabWrapper {
@@ -63,11 +85,6 @@
   border-radius: 8px;
 }
 
-/* 월 선택 셀렉트박스 감싸는 div */
-.monthSelectWrapper {
-  margin: 1rem 0;
-}
-
 /* 내역 리스트 전체 wrapper (ul 태그) */
 .listWrapper {
   list-style: none;
@@ -113,4 +130,5 @@
   cursor: pointer;
   display: block;
   margin: 0 auto;
+  text-align: center;
 }

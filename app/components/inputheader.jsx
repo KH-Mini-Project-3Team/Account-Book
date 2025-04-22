@@ -1,31 +1,44 @@
 "use client"
 
-import styles from "../styles/InputHeader.module.css"
+import { useRouter } from "next/navigation";
+import styles from "./styles/InputHeader.module.css"
 import Image from "next/image"
-export default function InputHeader(){
-   return(
+export default function InputHeader() {
+   const router = useRouter();
+
+
+   return (
       <div className={styles.container}>
          <div className={styles.topBar}>
-            <div style={{flexGrow: 1}}></div>
+            <button onClick={() => router.back()} 
+                     className={styles.backButton}>
+               <Image
+                  src="/images/back.svg"
+                  alt="뒤로가기"
+                  width={25}
+                  height={25}
+                  className={styles.images}
+               />
+            </button>
             <span className={styles.title}>자산</span>
 
             <div className={styles.icon}>
                <button>
                   <Image
-                  src="/images/edit.svg"
-                  alt="edit" 
-                  width={25}
-                  height={25}
-                  className={styles.images}
+                     src="/images/edit.svg"
+                     alt="edit"
+                     width={25}
+                     height={25}
+                     className={styles.images}
                   />
                </button>
                <button>
                   <Image
-                  src="/images/add.svg"
-                  alt="add" 
-                  width={25}
-                  height={25}                   
-                  className={styles.images}
+                     src="/images/add.svg"
+                     alt="add"
+                     width={25}
+                     height={25}
+                     className={styles.images}
                   />
                </button>
             </div>

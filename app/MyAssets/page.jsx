@@ -6,120 +6,129 @@ import { globalConfig } from "../config/globalConfig";
 import styles from "./MyAssets.module.css";
 
 export default function MyAssetsPage() {
-  const allowanceTotal = globalConfig
-    .filter((item) => item.type === "income" && item.category === "용돈")
-    .reduce((sum, item) => sum + item.price, 0);
+  const router = useRouter();
+  const [chartColors, setChartColors] = useState([]);
+  const [expanded, setExpanded] = useState(null);
 
-  const assetData = {
-    labels: ["계좌/현금", "주식", "용돈", "코인"],
-    values: [400000, 120000, allowanceTotal, 20000],
+  // ✅ 자산별 수입/지출 합산 및 내역 그룹화
+  const assetMap = globalConfig.reduce((acc, item) => {
+    const asset = item.asset;
+
+    if (!acc[asset]) {
+      acc[asset] = {
+        label: asset,
+        incomeTotal: 0,
+        expendTotal: 0,
+        details: [],
+      };
+    }
+
+    if (item.type === "income") {
+      acc[asset].incomeTotal += item.price;
+    } else if (item.type === "expend") {
+      acc[asset].expendTotal += item.price;
+    }
+
+    acc[asset].details.push(item);
+    return acc;
+  }, {});
+
+  // ✅ assetMap을 배열로 변환 + 잔액 계산
+  const assetDataArray = Object.values(assetMap).map((asset) => ({
+    ...asset,
+    balance: asset.incomeTotal - asset.expendTotal,
+  }));
+
+  // ✅ 도넛 차트용 데이터 (잔액 기준)
+  const chartData = {
+    labels: assetDataArray.map((item) => item.label),
+    values: assetDataArray.map((item) => item.balance),
   };
 
-  const router = useRouter();
+  // ✅ 총 자산 계산
+  const totalAssets = chartData.values.reduce((sum, v) => sum + v, 0);
+  const formattedTotalAssets = totalAssets.toLocaleString();
+
+  // ✅ 상세 페이지 이동
   const goToAssetDetail = () => {
     router.push("/MyAssets/asset-detail");
   };
 
-  const totalAssets = assetData.values.reduce((acc, value) => acc + value, 0);
-  const formattedTotalAssets = totalAssets.toLocaleString();
-
-  const [chartColors, setChartColors] = useState([]);
-  const [expanded, setExpanded] = useState(null);
-
-  const cashDetails = [
-    { bank: "농협", amount: 100000 },
-    { bank: "카카오뱅크", amount: 150000 },
-    { bank: "토스뱅크", amount: 150000 },
-  ];
-
-  const stockDetails = [
-    { stock: "삼성전자", amount: 50000 },
-    { stock: "카카오", amount: 30000 },
-    { stock: "네이버", amount: 20000 },
-  ];
-
+  // ✅ 펼침 토글 함수
   const toggleExpanded = (label) => {
     setExpanded((prev) => (prev === label ? null : label));
   };
 
   return (
     <main className={styles.mainContainer}>
+      {/* 타이틀 영역 */}
       <h1 className={styles.title}>📊 나의 자산 현황</h1>
       <h2 className={styles.totalAssets}>총 자산: {formattedTotalAssets} 원</h2>
 
+      {/* 도넛 차트 */}
       <section>
         <div className={styles.chartWrapper}>
-          <DonutChart data={assetData} onColors={setChartColors} />
+          <DonutChart data={chartData} onColors={setChartColors} />
         </div>
       </section>
 
+      {/* 자산별 리스트 */}
       <section className={styles.assetListSection}>
         <button className={styles.detailButton} onClick={goToAssetDetail}>
           수입 / 지출
         </button>
 
-        {assetData.labels.map((label, index) => (
+        {assetDataArray.map((item, index) => (
           <div key={index} className={styles.assetCard}>
             <div className={styles.cardInner}>
-              {/* 왼쪽: 도트 + 항목명 */}
+              {/* 좌측: 자산명 + 색상 */}
               <div className={styles.leftSide}>
                 <div
                   className={styles.colorDot}
                   style={{ backgroundColor: chartColors[index] || "#ccc" }}
                 ></div>
-                <h3 className={styles.labelText}>{label}</h3>
+                <h3 className={styles.labelText}>{item.label}</h3>
               </div>
 
-              {/* 오른쪽: 금액 + 버튼 */}
+              {/* 우측: 잔액 + 버튼 */}
               <div className={styles.rightSide}>
-                <p className={styles.labelText}>{assetData.values[index].toLocaleString()} 원</p>
+                <p className={styles.labelText}>
+                  {item.balance.toLocaleString()} 원
+                </p>
                 <button
                   className={styles.toggleButton}
-                  onClick={() => toggleExpanded(label)}
+                  onClick={() => toggleExpanded(item.label)}
                 >
-                  {expanded === label ? "닫기" : "보기"}
+                  {expanded === item.label ? "닫기" : "보기"}
                 </button>
               </div>
             </div>
 
+            {/* 상세 내역 */}
             <div
               className={`${styles.slideContent} ${
-                expanded === label ? styles.slideContentExpanded : ""
+                expanded === item.label ? styles.slideContentExpanded : ""
               }`}
             >
-              {label === "계좌/현금" && expanded === "계좌/현금" && (
+              {expanded === item.label && (
                 <div className={styles.detailList}>
-                  {cashDetails.map((item, index) => (
-                    <div key={index} className={styles.detailCard}>
-                      <span>{item.bank}</span>
-                      <span>{item.amount.toLocaleString()} 원</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {label === "주식" && expanded === "주식" && (
-                <div className={styles.detailList}>
-                  {stockDetails.map((item, index) => (
-                    <div key={index} className={styles.detailCard}>
-                      <span>{item.stock}</span>
-                      <span>{item.amount.toLocaleString()} 원</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {label === "용돈" && expanded === "용돈" && (
-                <div className={styles.detailList}>
-                  {globalConfig
-                    .filter(
-                      (item) =>
-                        item.type === "income" && item.category === "용돈"
-                    )
-                    .map((item, index) => (
-                      <div key={index} className={styles.detailCard}>
-                        <span>{item.memo}</span>
-                        <span>{item.price.toLocaleString()} 원</span>
+                  {item.details
+                    .slice() // 원본 배열 손상 방지
+                    .sort((a, b) => new Date(b.date) - new Date(a.date)) // ✅ 최신순 정렬
+                    .map((detail, i) => (
+                      <div key={i} className={styles.detailCard}>
+                        <span
+                          className={
+                            detail.type === "income"
+                              ? styles.income
+                              : styles.expend
+                          }
+                        >
+                          [{detail.type === "income" ? "수입" : "지출"}]
+                        </span>
+                        <span>{detail.memo}</span>
+                        <span>{detail.date}</span>
+                        <span>{detail.price.toLocaleString()} 원</span>
                       </div>
                     ))}
                 </div>
