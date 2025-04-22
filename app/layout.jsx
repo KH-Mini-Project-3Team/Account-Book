@@ -13,10 +13,7 @@ const dongle = Dongle({
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body lang="ko" 
-      className={dongle.className}
-      style={{fontSize: "26px"}}
-      >
+      <body lang="ko">
         <DataProvider>
           <div  className="layout-wrapper" >
             <HeaderWrapper/>
