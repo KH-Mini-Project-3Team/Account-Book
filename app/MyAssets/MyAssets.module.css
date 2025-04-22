@@ -201,10 +201,3 @@
   font-weight: bold;
 }
 
-.colorPickerWrapper {
-  margin-top: 0.5rem;
-  padding-left: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}

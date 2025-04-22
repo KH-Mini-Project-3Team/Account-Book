@@ -4,11 +4,15 @@ import DonutChart from "./components/donutchart";
 import { useRouter } from "next/navigation";
 import { globalConfig } from "../config/globalConfig";
 import styles from "./MyAssets.module.css";
+import { useData } from "../contexts/DataContext";
 
 export default function MyAssetsPage() {
+  const { data } = useData();
   const router = useRouter();
   const [chartColors, setChartColors] = useState([]);
   const [expanded, setExpanded] = useState(null);
+
+  
 
   // ✅ 자산별 수입/지출 합산 및 내역 그룹화
   const assetMap = globalConfig.reduce((acc, item) => {

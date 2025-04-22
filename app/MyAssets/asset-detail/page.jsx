@@ -1,141 +1,188 @@
 "use client";
-import React, { useState } from "react";
-import DonutChart from "../components/donutchart";
+
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { globalConfig } from "../../config/globalConfig";
-import styles from "../MyAssets.module.css";
+import DonutChart from "../components/donutchart";
+import styles from "./AssetDetail.module.css";
 
-export default function MyAssetsPage() {
+export default function AssetDetailPage() {
   const router = useRouter();
-  const [expanded, setExpanded] = useState(null);
 
-  // 사용자 정의 색상 상태
-  const [customColors, setCustomColors] = useState({});
+  const [selectedTab, setSelectedTab] = useState("income");
+  const [filterCategory, setFilterCategory] = useState("전체");
+  const [sortType, setSortType] = useState("최신순");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [expandedMonth, setExpandedMonth] = useState({});
 
-  // 수입/지출 데이터 그룹화
-  const assetMap = globalConfig.reduce((acc, item) => {
-    const asset = item.asset;
-    if (!acc[asset]) {
-      acc[asset] = {
-        label: asset,
-        incomeTotal: 0,
-        expendTotal: 0,
-        details: [],
-      };
-    }
-
-    item.type === "income"
-      ? (acc[asset].incomeTotal += item.price)
-      : (acc[asset].expendTotal += item.price);
-
-    acc[asset].details.push(item);
+  const grouped = globalConfig.reduce((acc, item) => {
+    const month = item.date.slice(0, 7);
+    acc[month] = acc[month] || [];
+    acc[month].push(item);
     return acc;
   }, {});
 
-  const assetDataArray = Object.values(assetMap).map((item) => ({
-    ...item,
-    balance: item.incomeTotal - item.expendTotal,
-  }));
+  const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
 
-  // 도넛 차트용 데이터
-  const chartData = {
-    labels: assetDataArray.map((item) => item.label),
-    values: assetDataArray.map((item) => item.balance),
-    colors: assetDataArray.map(
-      (item) => customColors[item.label] || "#ccc"
-    ),
-  };
+  useEffect(() => {
+    const todayMonth = new Date().toISOString().slice(0, 7);
+    setSelectedMonth(todayMonth);
+  }, [selectedTab]);
 
-  const totalAssets = chartData.values.reduce((sum, v) => sum + v, 0);
-  const formattedTotalAssets = totalAssets.toLocaleString();
+  const currentItems = selectedMonth
+    ? (grouped[selectedMonth] || []).filter((item) => item.type === selectedTab)
+    : [];
 
-  const toggleExpanded = (label) => {
-    setExpanded((prev) => (prev === label ? null : label));
-  };
+  const currentMonthCategories = [...new Set(currentItems.map((item) => item.category))];
 
-  const handleColorChange = (label, color) => {
-    setCustomColors((prev) => ({
-      ...prev,
-      [label]: color,
-    }));
-  };
+  const filtered = currentItems.filter(
+    (item) => filterCategory === "전체" || item.category === filterCategory
+  );
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortType === "최신순") return new Date(b.date) - new Date(a.date);
+    else return b.price - a.price;
+  });
+
+  const isExpanded = expandedMonth[selectedMonth] || false;
+  const itemsToShow = isExpanded ? sorted : sorted.slice(0, 3);
+
+  const categoryMap = {};
+  (selectedMonth ? currentItems : filtered).forEach((item) => {
+    if (!categoryMap[item.category]) categoryMap[item.category] = 0;
+    categoryMap[item.category] += item.price;
+  });
+
+  const chartLabels = Object.keys(categoryMap);
+  const chartValues = Object.values(categoryMap);
+
+  const incomeColors = ["#34D399", "#10B981", "#6EE7B7", "#A7F3D0"];
+  const expenseColors = ["#F87171", "#EF4444", "#FCA5A5", "#FECACA"];
+  const chartColors =
+    selectedTab === "income"
+      ? incomeColors.slice(0, chartLabels.length)
+      : expenseColors.slice(0, chartLabels.length);
 
   return (
-    <main className={styles.mainContainer}>
-      <h1 className={styles.title}>📊 나의 자산 현황</h1>
-      <h2 className={styles.totalAssets}>총 자산: {formattedTotalAssets} 원</h2>
+    <div className={styles.container}>
+      {/* 수입 / 지출 탭 */}
+      <div className={styles.tabWrapper}>
+        {["income", "expend"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => {
+              setSelectedTab(tab);
+              setFilterCategory("전체");
+            }}
+            className={`${styles.tabButton} ${
+              selectedTab === tab ? styles.tabSelected : styles.tabUnselected
+            }`}
+          >
+            {tab === "income" ? "수입" : "지출"}
+          </button>
+        ))}
+      </div>
 
-      <section>
-        <div className={styles.chartWrapper}>
-          <DonutChart data={chartData} />
+      {/* 필터 / 정렬 */}
+      <div className={styles.filterRow}>
+        <select
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
+          className={styles.select}
+        >
+          <option value="전체">전체 카테고리</option>
+          {currentMonthCategories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        <select
+          value={sortType}
+          onChange={(e) => setSortType(e.target.value)}
+          className={styles.select}
+        >
+          <option value="최신순">최신순</option>
+          <option value="금액순">금액순</option>
+        </select>
+      </div>
+
+      {/* 도넛 차트 */}
+      <div className={styles.chartContainer}>
+        <DonutChart
+          data={{
+            labels: chartLabels,
+            values: chartValues,
+            colors: chartColors,
+          }}
+        />
+      </div>
+
+      {/* 월 선택과 자산 현황 버튼 */}
+      <div className={styles.selectAndButtonWrapper}>
+        <div className={styles.monthSelectWrapper}>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className={styles.select}
+          >
+            <option value="">월 선택</option>
+            {allMonths.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
         </div>
-      </section>
 
-      <section className={styles.assetListSection}>
-        {assetDataArray.map((item, index) => (
-          <div key={index} className={styles.assetCard}>
-            <div className={styles.cardInner}>
-              <div className={styles.leftSide}>
-                <div
-                  className={styles.colorDot}
-                  style={{ backgroundColor: chartData.colors[index] }}
-                ></div>
-                <h3 className={styles.labelText}>{item.label}</h3>
-              </div>
+        <div>
+          <button onClick={() => router.push("/MyAssets")} className={styles.backButton}>
+            나의 자산 현황
+          </button>
+        </div>
+      </div>
 
-              <div className={styles.rightSide}>
-                <p className={styles.labelText}>
-                  {item.balance.toLocaleString()} 원
-                </p>
+      {/* 내역 리스트 */}
+      <div>
+        {selectedMonth && (
+          <>
+            <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem", color: "#333" }}>
+              {selectedMonth} {selectedTab === "income" ? "수입" : "지출"} 내역
+            </h3>
+
+            <ul className={styles.listWrapper}>
+              {itemsToShow.map((item, idx) => (
+                <li key={idx} className={styles.listItem}>
+                  <div className={styles.itemTitle}>
+                    {item.category} - {item.price.toLocaleString()}원
+                  </div>
+                  <div className={styles.itemMeta}>
+                    {item.date} | {item.memo} | {item.asset}
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {sorted.length > 3 && (
+              <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5rem" }}>
                 <button
-                  className={styles.toggleButton}
-                  onClick={() => toggleExpanded(item.label)}
+                  onClick={() =>
+                    setExpandedMonth((prev) => ({
+                      ...prev,
+                      [selectedMonth]: !isExpanded,
+                    }))
+                  }
+                  className={styles.expandButton}
                 >
-                  {expanded === item.label ? "닫기" : "보기"}
+                  {isExpanded ? "접기 ▲" : "더보기 ▼"}
                 </button>
               </div>
-            </div>
+            )}
 
-            {/* 색상 선택기 */}
-            <div className={styles.colorPicker}>
-              <label>
-                색상 선택:
-                <input
-                  type="color"
-                  value={customColors[item.label] || "#ccc"}
-                  onChange={(e) =>
-                    handleColorChange(item.label, e.target.value)
-                  }
-                />
-              </label>
-            </div>
-
-            {/* 상세 내역 */}
-            <div
-              className={`${styles.slideContent} ${
-                expanded === item.label ? styles.slideContentExpanded : ""
-              }`}
-            >
-              {expanded === item.label && (
-                <div className={styles.detailList}>
-                  {item.details
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .map((detail, i) => (
-                      <div key={i} className={styles.detailCard}>
-                        <span className={detail.type === "income" ? styles.income : styles.expend}>
-                          [{detail.type === "income" ? "수입" : "지출"}]
-                        </span>
-                        <span>{detail.memo}</span>
-                        <span>{detail.date}</span>
-                        <span>{detail.price.toLocaleString()} 원</span>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </section>
-    </main>
+            {sorted.length === 0 && <p>해당 월의 내역이 없습니다.</p>}
+          </>
+        )}
+      </div>
+    </div>
   );
 }
