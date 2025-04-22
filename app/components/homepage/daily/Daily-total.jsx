@@ -15,7 +15,7 @@ const groupByMonthAndDate = (data) => {
   data.forEach(item => {
     const dateObj = new Date(item.date);
     const month = dateObj.getMonth() + 1;
-    const date = dateObj.getDate();
+    const date = String(dateObj.getDate()).padStart(2, "0");
     const dateStr = item.date;
 
     const monthKey = `${month}월`;
@@ -34,13 +34,22 @@ const groupByMonthAndDate = (data) => {
 
 export default function DailyTotal() {
   const groupedData = groupByMonthAndDate(globalConfig);
-  const march = {"3월": groupedData["3월"]};
+  const april = { "4월": groupedData["4월"] };
 
   return (
     <div className={styles.dailyTotal}>
-      {Object.entries(march).map(([month, days]) => (
+      {Object.entries(april).map(([month, days]) => (
         <div key={month}>
-          {Object.entries(days).map(([day, items], index) => {
+          {Object.entries(days)
+            .sort((a, b) => {
+              const getDateNumber = (str) => parseInt(str.split("일")[0], 10);
+              return getDateNumber(b[0]) - getDateNumber(a[0]);
+            })
+
+            .map(([dayStr, items]) => {
+            const [datePart, dayPartWithParen] = dayStr.split(" ");
+            const dayPart = dayPartWithParen.replace(/[()]/g, "");
+
             const income = items
               .filter(i => i.type === "income")
               .reduce((sum, i) => sum + i.price, 0);
@@ -50,12 +59,32 @@ export default function DailyTotal() {
               .reduce((sum, i) => sum + i.price, 0);
 
             return (
-              <ul key={index}>
-                <li>{day}</li>
-                <li>수입 <span>{income.toLocaleString()}원</span></li>
-                <li>지출 <span>{expend.toLocaleString()}원</span></li>
-                <li>합계 <span>{(income - expend).toLocaleString()}원</span></li>
-              </ul>
+              <div  key={dayStr}>
+                <ul>
+                  <li>{datePart}</li>
+                  <li>{dayPart}</li>
+                  <li><span>{income.toLocaleString()}원</span></li>
+                  <li><span>{expend.toLocaleString()}원</span></li>
+                </ul>
+                {/* 세부 내역 */}
+                {items.map((item, index) => (
+                  
+                    <ul key={index}>
+                      <li>{item.category}</li>
+                      <li>
+                        <div>{item.memo}</div>
+                        <div>{item.asset}</div>
+                      </li>
+                      <li>
+                        {item.type === "income" ? item.price.toLocaleString() + "원" : ""}
+                      </li>
+                      <li>
+                        {item.type === "expend" ? item.price.toLocaleString() + "원" : ""}
+                      </li>
+                    </ul>
+                  ))
+                }
+              </div>
             );
           })}
         </div>

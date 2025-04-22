@@ -18,7 +18,6 @@ export default function RootLayout({ children }) {
             <main className="main-content">{children}</main>
             <footer className="footer"><Navigation /></footer>
           </div>
-          
         </DataProvider>
       </body>
     </html>
