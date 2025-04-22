@@ -2,20 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { globalConfig } from "../../config/globalConfig";
 import DonutChart from "../components/donutchart";
 import styles from "./AssetDetail.module.css";
+import { useData } from "@/app/contexts/DataContext";
+import chroma from "chroma-js";  // chroma.js 라이브러리 임포트
 
 export default function AssetDetailPage() {
   const router = useRouter();
-
+  const { data } = useData();
   const [selectedTab, setSelectedTab] = useState("income");
   const [filterCategory, setFilterCategory] = useState("전체");
   const [sortType, setSortType] = useState("최신순");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [expandedMonth, setExpandedMonth] = useState({});
 
-  const grouped = globalConfig.reduce((acc, item) => {
+  const grouped = data.reduce((acc, item) => {
     const month = item.date.slice(0, 7);
     acc[month] = acc[month] || [];
     acc[month].push(item);
@@ -56,16 +57,18 @@ export default function AssetDetailPage() {
   const chartLabels = Object.keys(categoryMap);
   const chartValues = Object.values(categoryMap);
 
-  const incomeColors = ["#34D399", "#10B981", "#6EE7B7", "#A7F3D0"];
-  const expenseColors = ["#F87171", "#EF4444", "#FCA5A5", "#FECACA"];
-  const chartColors =
-    selectedTab === "income"
-      ? incomeColors.slice(0, chartLabels.length)
-      : expenseColors.slice(0, chartLabels.length);
+  // chroma.js를 사용하여 색상 팔레트를 동적으로 생성
+  const generateColors = (numColors) => {
+    return chroma.scale(['#34D399', '#10B981', '#6EE7B7', '#A7F3D0']) // 기본 색상
+      .mode('lab') // 색상 변환 모드
+      .colors(numColors); // 필요한 색상의 개수만큼 색상 생성
+  };
+
+  // 수입/지출에 맞는 색상 생성
+  const chartColors = generateColors(chartLabels.length);
 
   return (
     <div className={styles.container}>
-      {/* 수입 / 지출 탭 */}
       <div className={styles.tabWrapper}>
         {["income", "expend"].map((tab) => (
           <button
@@ -83,7 +86,6 @@ export default function AssetDetailPage() {
         ))}
       </div>
 
-      {/* 필터 / 정렬 */}
       <div className={styles.filterRow}>
         <select
           value={filterCategory}
@@ -107,18 +109,16 @@ export default function AssetDetailPage() {
         </select>
       </div>
 
-      {/* 도넛 차트 */}
       <div className={styles.chartContainer}>
         <DonutChart
           data={{
             labels: chartLabels,
             values: chartValues,
-            colors: chartColors,
+            colors: chartColors, 
           }}
         />
       </div>
 
-      {/* 월 선택과 자산 현황 버튼 */}
       <div className={styles.selectAndButtonWrapper}>
         <div className={styles.monthSelectWrapper}>
           <select
@@ -142,8 +142,7 @@ export default function AssetDetailPage() {
         </div>
       </div>
 
-      {/* 내역 리스트 */}
-      <div>
+      <div className={styles.centerSection}>
         {selectedMonth && (
           <>
             <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem", color: "#333" }}>

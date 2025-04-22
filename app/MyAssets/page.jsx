@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import DonutChart from "./components/donutchart";
 import { useRouter } from "next/navigation";
-import { globalConfig } from "../config/globalConfig";
 import styles from "./MyAssets.module.css";
 import { useData } from "../contexts/DataContext";
 
@@ -15,7 +14,7 @@ export default function MyAssetsPage() {
   
 
   // ✅ 자산별 수입/지출 합산 및 내역 그룹화
-  const assetMap = globalConfig.reduce((acc, item) => {
+  const assetMap = data.reduce((acc, item) => {
     const asset = item.asset;
 
     if (!acc[asset]) {

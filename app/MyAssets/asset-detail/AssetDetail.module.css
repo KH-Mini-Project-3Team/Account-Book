@@ -5,7 +5,8 @@
 .selectAndButtonWrapper {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  gap: 50px; /* 요소 간의 간격을 적절히 조정 */
+  gap: 70px; /* 요소 간의 간격을 적절히 조정 */
+  padding-left: 15px;
 }
 
 /* 월 선택 셀렉트박스 감싸는 div */
@@ -91,6 +92,11 @@
   padding: 0;
 }
 
+/* 중앙 정렬 */
+.centerSection{
+  padding-left: 30px;
+}
+
 /* 개별 내역 카드 스타일 (li 태그) */
 .listItem {
   border: 1px solid #eee;          /* 연한 테두리 */
@@ -107,6 +113,7 @@
   flex-direction: column;         /* 세로 정렬 */
   align-items: center;            /* 가운데 정렬 */
 }
+
 
 /* 내역 카드에서 금액 + 카테고리 부분 */
 .itemTitle {
