@@ -2,7 +2,7 @@ import React from "react";
 import { DataProvider } from "./contexts/DataContext";
 import "./styles/globals.css";
 import { Dongle } from "next/font/google";
-import Header from "./components/header.jsx";
+import HeaderWrapper from "./components/HeaderWrapper";
 import Navigation from "./components/navigation.jsx";
 
 const dongle = Dongle({
@@ -13,14 +13,17 @@ const dongle = Dongle({
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body lang="ko">
+      <body lang="ko" 
+      className={dongle.className}
+      style={{fontSize: "26px"}}
+      >
         <DataProvider>
-          <div>
-            <Header />
-            <main>{children}</main>
-            <nav>
+          <div  className="layout-wrapper" >
+            <HeaderWrapper/>
+            <main className="main-content">{children}</main>
+            <footer className="footer">
               <Navigation />
-            </nav>
+            </footer>
           </div>
 
         </DataProvider>
