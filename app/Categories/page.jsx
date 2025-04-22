@@ -1,9 +1,9 @@
 "use client";
+// pages/SetAssets.js
+import { useData } from "../contexts/DataContext";
+import SetList from "./SetList";
 
-import React, { useState } from "react";
-import { useData } from "../../contexts/DataContext";
-import SetList from "../SetList";
-export default function SetAssets() {
+export default function Categories() {
   const { assetList, setAssetList } = useData();
 
   return (

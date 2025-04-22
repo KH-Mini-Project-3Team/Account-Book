@@ -2,7 +2,6 @@ import React from "react";
 import { DataProvider } from "./contexts/DataContext";
 import "./styles/globals.css";
 import { Dongle } from "next/font/google";
-import Header from "./components/header.jsx";
 import Navigation from "./components/navigation.jsx";
 
 const dongle = Dongle({
@@ -15,13 +14,11 @@ export default function RootLayout({ children }) {
     <html lang="ko">
       <body>
         <DataProvider>
-          <div>
-            <Header />
-            {children}
-            <nav>
-              <Navigation />
-            </nav>
+          <div className="layout-wrapper">
+            <main className="main-content">{children}</main>
+            <footer className="footer"><Navigation /></footer>
           </div>
+          
         </DataProvider>
       </body>
     </html>
