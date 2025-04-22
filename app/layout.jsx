@@ -1,9 +1,7 @@
 import React from "react";
 import { DataProvider } from "./contexts/DataContext";
 import "./styles/globals.css";
-import styles from "../app/styles/layout.module.css";
 import { Dongle } from "next/font/google";
-import Header from "./components/header.jsx";
 import Navigation from "./components/navigation.jsx";
 
 const dongle = Dongle({
@@ -13,15 +11,12 @@ const dongle = Dongle({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ko" className={dongle.className}>
+    <html lang="ko">
       <body>
         <DataProvider>
-          <div className={styles.container}>
-            <Header />
-            {children}
-            <nav className={styles.navigation}>
-              <Navigation />
-            </nav>
+          <div className="layout-wrapper">
+            <main className="main-content">{children}</main>
+            <footer className="footer"><Navigation /></footer>
           </div>
         </DataProvider>
       </body>
