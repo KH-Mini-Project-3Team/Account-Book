@@ -8,7 +8,7 @@ import { useData } from "../contexts/DataContext";
 import Link from "next/link";
 import Image from "next/image";
 import backImg from "@/public/images/arrow-left-circle.svg";
-import CategoryHeader from './CategoryHeader';
+import CategoryHeader from "./CategoryHeader";
 
 export default function InputAssets() {
   // 활성화된 탭 상태
@@ -39,6 +39,8 @@ export default function InputAssets() {
   const [categoryURL, setCategoryURL] = useState("/Categories/SetExpend");
   // 자산 라벨 상태
   const [assetLabel, setAssetLabel] = useState("자산");
+  // 자산 수정 URL
+  const [assetURL, setAssetURL] = useState("/Categories/SetAssets");
   // 현재 표시 중인 UI 상태 (초기값: 계산기)
   const [visibleUI, setVisibleUI] = useState("calculator");
 
@@ -293,7 +295,13 @@ export default function InputAssets() {
       {visibleUI === "asset" && (
         <div>
           <div>
-            <Link href="/Categories/SetAssets">추가</Link>
+            <CategoryHeader
+              categoryLabel={assetLabel}
+              categoryURL={assetURL}
+              onClose={() => {
+                setVisibleUI("");
+              }}
+            />
           </div>
           <div className={styles["category-buttons"]}>
             {assetList.map((asset) => (

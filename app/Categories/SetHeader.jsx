@@ -5,7 +5,10 @@ import Image from 'next/image';
 import backImg from '@/public/images/arrow-left-circle.svg';
 import plus from '@/public/images/plus.svg';
 
-export default function SetHeader({ onAddAsset }) {
+export default function SetHeader({ 
+  onAdd,
+  headerText
+ }) {
   return (
     <div className={styles.container}>
       <span>
@@ -18,7 +21,7 @@ export default function SetHeader({ onAddAsset }) {
           />
         </Link>
       </span>
-      <span>수입</span>
+      <span>{headerText}</span>
       <span>
         <Image
           src={plus}
@@ -26,7 +29,7 @@ export default function SetHeader({ onAddAsset }) {
           width={20}
           height={20}
           style={{ cursor: "pointer" }}
-          onClick={onAddAsset}
+          onClick={onAdd}
         />
       </span>
     </div>

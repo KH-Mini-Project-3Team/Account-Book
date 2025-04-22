@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import Pen from '@/public/images/pen.svg';
 
 export default function CategoryHeader({
   categoryLabel,
   categoryURL,
-  pencilIconSrc,
   onClose,
 }) {
   return (
@@ -12,22 +12,32 @@ export default function CategoryHeader({
       style={{
         display: "flex",
         alignItems: "center",
-        background: "#7a807e", // 이미지 배경색에 근접
-        padding: "24px 40px",
+        background: "#f8b8af", // 이미지 배경색에 근접
+        paddingLeft: "20px",
+        paddingRight: "10px",
         justifyContent: "space-between",
+        height: "40px",
+        boxSizing: "border-box",
+        marginTop: "30px",
+        borderRadius: "5px"
       }}
     >
       <span
         style={{
-          fontSize: "32px",
-          fontWeight: 400,
-          color: "#232726", // 이미지의 글자색에 근접
+          fontSize: "18px",
+          fontWeight: 500,
+          color: "#FFF", // 이미지의 글자색에 근접
         }}
       >
         {categoryLabel}
       </span>
       <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-        <Link href={categoryURL}>링크
+        <Link href={categoryURL}>
+          <Image 
+            src={Pen}
+            alt='pen'
+            width={20}
+            height={20}/>
         </Link>
         <button
           onClick={onClose}
@@ -40,13 +50,12 @@ export default function CategoryHeader({
           }}
           aria-label="닫기"
         >
-          {/* X 아이콘 svg 직접 사용 예시 */}
           <svg
-            width="40"
-            height="40"
+            width="26"
+            height="26"
             viewBox="0 0 40 40"
-            stroke="#232726"
-            strokeWidth="2"
+            stroke="#FFF"
+            strokeWidth="3"
           >
             <line x1="10" y1="10" x2="30" y2="30" />
             <line x1="30" y1="10" x2="10" y2="30" />

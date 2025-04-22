@@ -124,7 +124,6 @@
 /* Category Buttons (크기 유지) */
 .category-buttons {
   display: flex;
-  margin-top: 30px;
   justify-content: flex-start; /* 또는 다른 정렬 방식 */
 }
 
