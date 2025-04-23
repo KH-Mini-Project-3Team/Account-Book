@@ -5,9 +5,6 @@ import styles from "./InputAssets.module.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useData } from "../contexts/DataContext";
-import Link from "next/link";
-import Image from "next/image";
-import backImg from "@/public/images/arrow-left-circle.svg";
 import CategoryHeader from "./CategoryHeader";
 import { useRouter, useSearchParams } from "next/navigation";
 

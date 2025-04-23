@@ -11,10 +11,10 @@ export default function InputHeader() {
          <div className={styles.topBar}>
                <button onClick={()=>router.back()} className={styles.backButton}>
                   <Image
-                     src="/images/back.svg"
+                     src="/images/arrowCircle.svg"
                      alt="goBack"
-                     width={25}
-                     height={25}
+                     width={27}
+                     height={27}
                      className={styles.Images}
                   />
                </button>

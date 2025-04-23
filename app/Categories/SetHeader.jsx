@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import styles from './SetHeader.module.css';
 import Image from 'next/image';
-import backImg from '@/public/images/arrow-left-circle.svg';
+import backImg from '@/public/images/arrowCircle.svg';
 import plus from '@/public/images/plus.svg';
 
 export default function SetHeader({ 
