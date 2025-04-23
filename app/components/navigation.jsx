@@ -4,13 +4,21 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './styles/navigation.module.css'
+import { format } from "date-fns";
+import { useEffect, useState } from 'react';
 
 export default function Navigation() {
    const Pathname = usePathname();
    if(Pathname === "/inputheader") return null;
 
+   const [today, setToday] = useState("");
+   useEffect(()=>{
+      const now = new Date();
+      const formatted = format(now, "M. d.");
+      setToday(formatted);
+   },[]);
    return (
-      <nav>
+      <nav className={styles.container}>
          <ul className={styles.navList}>
             <li>
                <Link href="/" className={styles.navLink}>
@@ -23,7 +31,7 @@ export default function Navigation() {
                   
                   className={styles.navImage}
                   />        
-                  <span className={styles.navText}>오늘날짜</span>     
+                  <span className={styles.navText}>{today}</span>     
                   </div>
                </Link>
             </li>
@@ -42,7 +50,7 @@ export default function Navigation() {
                </Link>
             </li>
             <li>
-               <Link href="/InputAssets" className={styles.navLink}>
+               <Link href="/MyAssets/asset-detail" className={styles.navLink}>
                   <div className={styles.navItem}>
                      <Image
                      src="/images/graph.svg" 
@@ -56,16 +64,16 @@ export default function Navigation() {
                </Link>
             </li>
             <li>
-               <Link href="/" className={styles.navLink}>
+               <Link href="/InputAssets" className={styles.navLink}>
                   <div className={styles.navItem}>
                      <Image
-                     src="/images/more.svg" 
-                     alt="더보기" 
+                     src="/images/add.svg" 
+                     alt="추가" 
                      width={32}
                      height={32}
                      className={styles.navImage}                  
                      />
-                     <span className={styles.navText}>더보기</span>                  
+                     <span className={styles.navText}>추가</span>                  
                   </div>
                </Link>
             </li>

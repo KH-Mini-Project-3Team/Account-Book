@@ -32,6 +32,7 @@ html, body {
   z-index: 100;
   align-items: center;
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 /* Date Picker (크기 유지) */
