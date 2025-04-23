@@ -1,6 +1,7 @@
 export const globalConfig = [
   // ✅ 수입 데이터
   {
+    id: 1,
     type: "income",
     date: "2025-03-01",
     price: 10000,
@@ -9,6 +10,7 @@ export const globalConfig = [
     memo: "엄마 용돈",
   },
   {
+    id: 2,
     type: "income",
     date: "2025-03-01",
     price: 10000,
@@ -17,6 +19,7 @@ export const globalConfig = [
     memo: "엄마 용돈",
   },
   {
+    id: 3,
     type: "income",
     date: "2025-03-01",
     price: 10000,
@@ -25,6 +28,7 @@ export const globalConfig = [
     memo: "엄마 용돈",
   },
   {
+    id: 4,
     type: "income",
     date: "2025-03-01",
     price: 10000,
@@ -33,6 +37,7 @@ export const globalConfig = [
     memo: "엄마 용돈",
   },
   {
+    id: 5,
     type: "income",
     date: "2025-03-01",
     price: 10000,
@@ -41,6 +46,7 @@ export const globalConfig = [
     memo: "엄마 용돈",
   },
   {
+    id: 6,
     type: "income",
     date: "2025-03-05",
     price: 25000,
@@ -49,6 +55,7 @@ export const globalConfig = [
     memo: "파트타임",
   },
   {
+    id: 7,
     type: "income",
     date: "2025-03-08",
     price: 5000,
@@ -57,6 +64,7 @@ export const globalConfig = [
     memo: "당근마켓 수입",
   },
   {
+    id: 8,
     type: "income",
     date: "2025-04-08",
     price: 15000,
@@ -65,6 +73,7 @@ export const globalConfig = [
     memo: "당근마켓 수입",
   },
   {
+    id: 9,
     type: "income",
     date: "2025-04-05",
     price: 25000,
@@ -75,6 +84,7 @@ export const globalConfig = [
 
   // ✅ 지출 데이터
   {
+    id: 10,
     type: "expend",
     date: "2025-03-02",
     price: 7000,
@@ -83,6 +93,7 @@ export const globalConfig = [
     memo: "스타벅스",
   },
   {
+    id: 11,
     type: "expend",
     date: "2025-03-03",
     price: 12000,
@@ -91,6 +102,7 @@ export const globalConfig = [
     memo: "점심 식사",
   },
   {
+    id: 12,
     type: "expend",
     date: "2025-03-07",
     price: 4000,
@@ -99,6 +111,7 @@ export const globalConfig = [
     memo: "버스비",
   },
   {
+    id: 13,
     type: "expend",
     date: "2025-03-10",
     price: 9000,
@@ -107,6 +120,7 @@ export const globalConfig = [
     memo: "야식",
   },
   {
+    id: 14,
     type: "expend",
     date: "2025-04-10",
     price: 8000,
@@ -114,6 +128,7 @@ export const globalConfig = [
     asset: "농협",
     memo: "야식",
   },{
+    id: 15,
     type: "expend",
     date: "2025-04-10",
     price: 12000,
