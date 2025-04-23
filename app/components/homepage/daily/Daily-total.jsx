@@ -72,20 +72,18 @@ export default function DailyTotal() {
               {/* 세부 내역 */}
               {items.map((item, index) => (
 
-                <ul key={index}>
-                  <li>{item.category}</li>
-
-                  <li>
+                <ul key={index} className={styles.detailRow}>
+                  <li className={styles.category}>{item.category}</li>
+                  <li className={styles.memo}>
                     <Link href={`/InputAssets?id=${item.id}`}>
                       <div>{item.memo}</div>
                       <div>{item.asset}</div>
                     </Link>
                   </li>
-
-                  <li>
+                  <li className={styles.income}>
                     {item.type === "income" ? item.price.toLocaleString() + "원" : ""}
                   </li>
-                  <li>
+                  <li className={styles.expend}>
                     {item.type === "expend" ? item.price.toLocaleString() + "원" : ""}
                   </li>
                 </ul>
