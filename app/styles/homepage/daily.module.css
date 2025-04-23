@@ -59,6 +59,10 @@
   color: white;
   font-size: 15px;
 }
+.dailyTotal a{
+  text-decoration: none;
+  color: white;
+}
 .dailyTotal div {
   width: 100%;
 }

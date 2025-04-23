@@ -1,20 +1,23 @@
 "use client"
 
 import styles from "../../../styles/homepage/daily.module.css"
-import { globalConfig } from "../../../config/globalConfig";
+import { useData } from "@/app/contexts/DataContext";
+import { useState } from "react";
 
-export default function Total() {
 
-  const march = globalConfig.filter(item => {
+export default function Total({currentDate}) {
+  const { data } = useData();
+  
+  const monthData = data.filter(item=> {
     const date = new Date(item.date);
     return date.getMonth() === 3;
-  });
+  })
 
-  const incomeTotal = march
+  const incomeTotal = monthData
     .filter(item => item.type === "income")
     .reduce((sum, item) => sum + item.price, 0);
 
-  const expendTotal = march
+  const expendTotal = monthData
     .filter(item => item.type === "expend")
     .reduce((sum, item) => sum + item.price, 0);
 
