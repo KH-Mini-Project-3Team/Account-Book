@@ -1,192 +1,179 @@
-"use client";
+// AssetDetailPage.js
+
+"use client"; // 이 파일은 클라이언트 사이드에서만 실행됨
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { globalConfig } from "../../config/globalConfig"; // 전체 수입/지출 내역 데이터
-import DonutChart from "../components/donutchart"; // 도넛 차트 컴포넌트
+import { useRouter } from "next/navigation"; // 페이지 이동을 위한 Next.js의 router 사용
+import DonutChart from "../components/donutchart"; // 도넛 차트 컴포넌트 가져오기
+import styles from "./AssetDetail.module.css"; // 스타일 파일 가져오기
+import { useData } from "@/app/contexts/DataContext"; // 전역 데이터 관리 컨텍스트
+import chroma from "chroma-js";  // 색상 관리를 위한 chroma.js 라이브러리
 
 export default function AssetDetailPage() {
   const router = useRouter();
+  const { data } = useData(); // context에서 자산 데이터를 가져옴
+  const [selectedTab, setSelectedTab] = useState("income"); // '수입' 혹은 '지출' 탭 상태
+  const [filterCategory, setFilterCategory] = useState("전체"); // 카테고리 필터 상태
+  const [sortType, setSortType] = useState("최신순"); // 정렬 방식 상태
+  const [selectedMonth, setSelectedMonth] = useState(""); // 선택된 월 상태
+  const [expandedMonth, setExpandedMonth] = useState({}); // 확장된 월 내역을 위한 상태
 
-  // 선택된 탭: 수입(income) 또는 지출(expend)
-  const [selectedTab, setSelectedTab] = useState("income");
+  // 자산 데이터를 월별로 그룹화하는 코드
+  const grouped = data.reduce((acc, item) => {
+    const month = item.date.slice(0, 7); // yyyy-mm 형식으로 날짜 추출
+    acc[month] = acc[month] || []; // 월별로 그룹화
+    acc[month].push(item); // 해당 월에 아이템 추가
+    return acc;
+  }, {});
 
-  // 선택된 카테고리 필터 (예: 식비, 교통비 등)
-  const [filterCategory, setFilterCategory] = useState("전체");
+  // 그룹화된 월을 최신순으로 정렬
+  const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
 
-  // 정렬 방식: 최신순 또는 금액순
-  const [sortType, setSortType] = useState("최신순");
+  // 컴포넌트 로드 시 기본 선택된 월을 현재 월로 설정
+  useEffect(() => {
+    const todayMonth = new Date().toISOString().slice(0, 7); // 현재 월을 yyyy-mm 형식으로 추출
+    setSelectedMonth(todayMonth);
+  }, [selectedTab]); // selectedTab이 변경될 때마다 실행
 
-  // 선택된 월 (예: 2025-04)
-  const [selectedMonth, setSelectedMonth] = useState("");
+  // 선택된 월에 해당하는 항목들 필터링
+  const currentItems = selectedMonth
+    ? (grouped[selectedMonth] || []).filter((item) => item.type === selectedTab)
+    : [];
 
-  // 월별로 더보기 버튼 클릭 여부 저장
-  const [expandedMonth, setExpandedMonth] = useState({});
+  // 선택된 월에서 카테고리 목록 추출
+  const currentMonthCategories = [...new Set(currentItems.map((item) => item.category))];
 
-  // 선택된 탭과 카테고리에 따라 필터링된 데이터
-  const filtered = globalConfig
-    .filter((item) => item.type === selectedTab)
-    .filter((item) => filterCategory === "전체" || item.category === filterCategory);
+  // 카테고리 필터링
+  const filtered = currentItems.filter(
+    (item) => filterCategory === "전체" || item.category === filterCategory
+  );
 
-  // 선택된 정렬 방식에 따라 정렬
+  // 정렬 방식 적용
   const sorted = [...filtered].sort((a, b) => {
     if (sortType === "최신순") return new Date(b.date) - new Date(a.date);
     else return b.price - a.price;
   });
 
-  // 데이터를 월별로 그룹화 (예: {"2025-04": [...], "2025-03": [...]})
-  const grouped = sorted.reduce((acc, item) => {
-    const month = item.date.slice(0, 7);
-    acc[month] = acc[month] || [];
-    acc[month].push(item);
-    return acc;
-  }, {});
-
-  // 월 리스트를 최신순으로 정렬
-  const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
-
-  // 탭이 바뀔 때 현재 월 자동 설정
-  useEffect(() => {
-    const todayMonth = new Date().toISOString().slice(0, 7);
-    setSelectedMonth(todayMonth);
-  }, [selectedTab]);
-
-  // 선택된 월의 항목 리스트
-  const currentItems = selectedMonth ? grouped[selectedMonth] || [] : [];
-
-  // 해당 월에 대해 확장 여부 확인
+  // 월이 확장되었는지 여부 확인
   const isExpanded = expandedMonth[selectedMonth] || false;
+  // 확장 여부에 따라 표시할 항목을 조정
+  const itemsToShow = isExpanded ? sorted : sorted.slice(0, 3);
 
-  // 확장 여부에 따라 보여줄 리스트 개수 결정
-  const itemsToShow = isExpanded ? currentItems : currentItems.slice(0, 3);
-
-  // 도넛 차트용 카테고리별 금액 계산
+  // 각 카테고리별 금액 합계 계산
   const categoryMap = {};
   (selectedMonth ? currentItems : filtered).forEach((item) => {
     if (!categoryMap[item.category]) categoryMap[item.category] = 0;
     categoryMap[item.category] += item.price;
   });
 
-  // 도넛 차트에 전달할 라벨, 값, 색상
-  const chartLabels = Object.keys(categoryMap);
-  const chartValues = Object.values(categoryMap);
+  // 도넛 차트의 데이터 준비
+  const chartLabels = Object.keys(categoryMap); // 카테고리
+  const chartValues = Object.values(categoryMap); // 각 카테고리의 합계 금액
 
-  // 수입/지출에 따라 도넛 차트 색상 설정
-  const incomeColors = ["#34D399", "#10B981", "#6EE7B7", "#A7F3D0"];
-  const expenseColors = ["#F87171", "#EF4444", "#FCA5A5", "#FECACA"];
-  const chartColors =
-    selectedTab === "income"
-      ? incomeColors.slice(0, chartLabels.length)
-      : expenseColors.slice(0, chartLabels.length);
+  // chroma.js를 사용하여 색상 팔레트를 동적으로 생성
+  const generateColors = (numColors) => {
+    return chroma.scale(['#34D399', '#10B981', '#6EE7B7', '#A7F3D0']) // 기본 색상
+      .mode('lab') // 색상 변환 모드
+      .colors(numColors); // 필요한 색상의 개수만큼 색상 생성
+  };
+
+  // 수입/지출에 맞는 색상 생성
+  const chartColors = generateColors(chartLabels.length);
 
   return (
-    <div
-      style={{
-        backgroundColor: "#F8DCD7",
-        minHeight: "100vh",
-        maxWidth: "390px",
-        margin: "0 auto",
-        padding: "1rem",
-      }}
-    >
-      {/* 돌아가기 버튼 */}
-      <button
-        onClick={() => router.push("/MyAssets")}
-        style={{
-          background: "none",
-          border: "none",
-          color: "#333",
-          fontSize: "1rem",
-          marginBottom: "1rem",
-          cursor: "pointer",
-        }}
-      >
-        ← 자산 페이지로 돌아가기
-      </button>
-
-      {/* 탭: 수입 / 지출 */}
-      <div style={{ display: "flex", backgroundColor: "#fff", borderRadius: "8px", marginBottom: "1rem" }}>
+    <div className={styles.container}>
+      {/* 수입 / 지출 탭 */}
+      <div className={styles.tabWrapper}>
         {["income", "expend"].map((tab) => (
           <button
             key={tab}
             onClick={() => {
-              setSelectedTab(tab);
-              setFilterCategory("전체");
+              setSelectedTab(tab); // 클릭 시 탭 변경
+              setFilterCategory("전체"); // 카테고리 초기화
             }}
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              backgroundColor: selectedTab === tab ? "#fff" : "#eee",
-              fontWeight: selectedTab === tab ? "bold" : "normal",
-              border: "none",
-              cursor: "pointer",
-            }}
+            className={`${styles.tabButton} ${
+              selectedTab === tab ? styles.tabSelected : styles.tabUnselected
+            }`}
           >
             {tab === "income" ? "수입" : "지출"}
           </button>
         ))}
       </div>
 
-      {/* 필터: 카테고리 + 정렬 */}
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-        <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} style={{ flex: 1 }}>
+      {/* 카테고리 & 정렬 셀렉트박스 */}
+      <div className={styles.filterRow}>
+        <select
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
+          className={styles.select}
+        >
           <option value="전체">전체 카테고리</option>
-          {[...new Set(filtered.map((item) => item.category))].map((cat) => (
+          {currentMonthCategories.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
             </option>
           ))}
         </select>
-        <select value={sortType} onChange={(e) => setSortType(e.target.value)} style={{ flex: 1 }}>
+        <select
+          value={sortType}
+          onChange={(e) => setSortType(e.target.value)}
+          className={styles.select}
+        >
           <option value="최신순">최신순</option>
           <option value="금액순">금액순</option>
         </select>
       </div>
 
-      {/* 도넛 차트 컴포넌트 */}
-      <DonutChart data={{ labels: chartLabels, values: chartValues, colors: chartColors }} />
-
-      {/* 월 선택 셀렉트박스 */}
-      <div style={{ margin: "1rem 0" }}>
-        <select
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-          style={{ width: "100%", padding: "0.5rem", borderRadius: "8px" }}
-        >
-          <option value="">월 선택</option>
-          {allMonths.map((month) => (
-            <option key={month} value={month}>
-              {month}
-            </option>
-          ))}
-        </select>
+      {/* 도넛 차트 */}
+      <div className={styles.chartContainer}>
+        <DonutChart
+          data={{
+            labels: chartLabels,
+            values: chartValues,
+            colors: chartColors, 
+          }}
+        />
       </div>
 
-      {/* 선택된 월의 상세 내역 리스트 */}
-      <div>
+      {/* 월 선택 및 '자산 현황' 버튼 */}
+      <div className={styles.selectAndButtonWrapper}>
+        <div className={styles.monthSelectWrapper}>
+          <select
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className={styles.select}
+          >
+            <option value="">월 선택</option>
+            {allMonths.map((month) => (
+              <option key={month} value={month}>
+                {month}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <button onClick={() => router.push("/MyAssets")} className={styles.backButton}>
+            나의 자산 현황
+          </button>
+        </div>
+      </div>
+
+      {/* 선택된 월 내역 */}
+      <div className={styles.centerSection}>
         {selectedMonth && (
           <>
-            <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>
+            <h3 style={{ fontSize: "1.1rem", marginBottom: "0.5rem", color: "#333" }}>
               {selectedMonth} {selectedTab === "income" ? "수입" : "지출"} 내역
             </h3>
 
-            {/* 리스트 출력 */}
-            <ul style={{ listStyle: "none", padding: 0 }}>
+            <ul className={styles.listWrapper}>
               {itemsToShow.map((item, idx) => (
-                <li
-                  key={idx}
-                  style={{
-                    backgroundColor: "#fff",
-                    borderRadius: "10px",
-                    padding: "1rem",
-                    marginBottom: "0.8rem",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  }}
-                >
-                  <div style={{ fontWeight: "bold", marginBottom: "0.3rem" }}>
+                <li key={idx} className={styles.listItem}>
+                  <div className={styles.itemTitle}>
                     {item.category} - {item.price.toLocaleString()}원
                   </div>
-                  <div style={{ fontSize: "0.9rem", color: "#666" }}>
+                  <div className={styles.itemMeta}>
                     {item.date} | {item.memo} | {item.asset}
                   </div>
                 </li>
@@ -194,27 +181,23 @@ export default function AssetDetailPage() {
             </ul>
 
             {/* 더보기 / 접기 버튼 */}
-            {currentItems.length > 3 && (
-              <button
-                onClick={() =>
-                  setExpandedMonth((prev) => ({ ...prev, [selectedMonth]: !isExpanded }))
-                }
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#333",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                  display: "block",
-                  margin: "0 auto",
-                }}
-              >
-                {isExpanded ? "접기 ▲" : "더보기 ▼"}
-              </button>
+            {sorted.length > 3 && (
+              <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5rem" }}>
+                <button
+                  onClick={() =>
+                    setExpandedMonth((prev) => ({
+                      ...prev,
+                      [selectedMonth]: !isExpanded,
+                    }))
+                  }
+                  className={styles.expandButton}
+                >
+                  {isExpanded ? "접기 ▲" : "더보기 ▼"}
+                </button>
+              </div>
             )}
 
-            {/* 내역이 없을 경우 표시 */}
-            {currentItems.length === 0 && <p>해당 월의 내역이 없습니다.</p>}
+            {sorted.length === 0 && <p>해당 월의 내역이 없습니다.</p>}
           </>
         )}
       </div>

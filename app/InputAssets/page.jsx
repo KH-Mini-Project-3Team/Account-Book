@@ -25,6 +25,8 @@ export default function InputAssets() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
+
+  
   // Context Data
   const {
     data,
@@ -36,6 +38,7 @@ export default function InputAssets() {
     assetList,
   } = useData();
 
+  
   // id가 있으면 해당 요소 찾기
   const initialData = id ? data.find((item) => item.id === Number(id)) : null;
 
