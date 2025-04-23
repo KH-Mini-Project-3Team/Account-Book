@@ -5,36 +5,38 @@
   box-sizing: border-box;
   justify-content: center;
   text-align: center;
-  
-  
+  width: 100%;
+  background-color: #f3d7d3;
 }
 
 .calendar table{
   width: 100%;
   border-collapse: collapse;
-  color: black;
+  color: white;
 }
 
 .calendar table thead tr{
   height: 20px;
-  border: 1px solid gray;
+  border: 1px solid #ffe6e27a;
+  color: #c26345;
 }
 
 .calendar table tbody tr{
   text-align: left;
-  height: 140px;
+  height: 100px;
   vertical-align: top;
-  border: 1px solid gray;
+  border: 1px solid #ffe6e27a;
 }
 
 .calendar table tbody tr td {
   width: 14.3%;
-  border: 1px solid gray;
+  border: 2px solid #ffe6e27a;
   border-collapse: collapse;
 }
 
 .calendar table tbody tr td:nth-child(1) {
   color: red;
+  font-size: 14px;
  }
 
 .calendar table tbody tr td:nth-child(7) {
@@ -44,7 +46,7 @@
 
 .calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div{
   position: relative;
-  height: 140px;
+  height: 100px;
 }
 
 .calendar table tbody > tr:nth-child(2) > td:nth-child(5) > div > div{

@@ -1,5 +1,8 @@
+"use client"
+
+import Link from "next/link";
 import styles from "../../../styles/homepage/daily.module.css"
-import { globalConfig } from "../../../config/globalConfig"
+import { useData } from "@/app/contexts/DataContext";
 
 //요일 반환
 const getDay = (dateStr) => {
@@ -33,7 +36,8 @@ const groupByMonthAndDate = (data) => {
 
 
 export default function DailyTotal() {
-  const groupedData = groupByMonthAndDate(globalConfig);
+  const { data } = useData();
+  const groupedData = groupByMonthAndDate(data);
   const april = { "4월": groupedData["4월"] };
 
   return (
@@ -71,10 +75,14 @@ export default function DailyTotal() {
                   
                     <ul key={index}>
                       <li>{item.category}</li>
+                      
                       <li>
-                        <div>{item.memo}</div>
-                        <div>{item.asset}</div>
+                        <Link href={`/InputAssets?id=${item.id}`}>
+                          <div>{item.memo}</div>
+                          <div>{item.asset}</div>
+                        </Link>
                       </li>
+                      
                       <li>
                         {item.type === "income" ? item.price.toLocaleString() + "원" : ""}
                       </li>
