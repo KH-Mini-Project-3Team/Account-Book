@@ -10,10 +10,11 @@ import Link from 'next/link';
 export default function Header() {
    const { currentDate, setCurrentDate } = useMonth();
 
+
    const Pathname = usePathname();
    const router = useRouter();
    if (Pathname.includes("/inputheader")) return null;
-
+   
    // 이전 월로 이동
    const handlePrevMonth = () => {
       const prevMonth = subMonths(currentDate, 1); // 이전 달로 설정
@@ -82,6 +83,7 @@ export default function Header() {
                />
             </button>
          </div>
+         
       </div>
    )
 }

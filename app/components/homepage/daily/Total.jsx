@@ -2,15 +2,17 @@
 
 import styles from "../../../styles/homepage/daily.module.css"
 import { useData } from "@/app/contexts/DataContext";
+import { useMonth } from "@/app/contexts/MonthContext";
 import { useState } from "react";
 
 
-export default function Total({currentDate}) {
+export default function Total() {
   const { data } = useData();
-  
+  const { currentDate } =useMonth();
+
   const monthData = data.filter(item=> {
     const date = new Date(item.date);
-    return date.getMonth() === 3;
+    return date.getMonth() === currentDate.getMonth() && date.getFullYear() === currentDate.getFullYear();
   })
 
   const incomeTotal = monthData
