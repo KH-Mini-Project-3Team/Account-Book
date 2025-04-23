@@ -1,11 +1,16 @@
+.container{
+   width: 100%;
+}
+
 .navList{
    list-style: none;
    display: flex;
-   padding: 0;
+   padding: 0px 10px;
    margin: 10px 0 0 0;
-   justify-content: center;
+   justify-content: space-between;
    gap: 4.5em;
    width: 100%;
+   box-sizing: border-box;
 }
 .navImage{
    width: 32px;
@@ -31,4 +36,5 @@
    text-align: center;
    width: max-content;
    padding: 0 2px;
+   color: white;
  }

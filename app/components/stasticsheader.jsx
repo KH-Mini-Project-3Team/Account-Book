@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import styles from "./styles/InputHeader.module.css"
+import styles from "./styles/stastics.module.css"
 import Image from "next/image"
 import Link from "next/link";
 export default function InputHeader() {
@@ -21,7 +21,7 @@ export default function InputHeader() {
                   />
                </button>
             </Link>
-            <span className={styles.title}>자산</span>
+            <span className={styles.title}>통계</span>
 
             <div className={styles.icon}>
                <button>
