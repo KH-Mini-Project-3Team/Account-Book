@@ -8,6 +8,7 @@ import DonutChart from "../components/donutchart"; // 도넛 차트 컴포넌트
 import styles from "./AssetDetail.module.css"; // 스타일 파일 가져오기
 import { useData } from "@/app/contexts/DataContext"; // 전역 데이터 관리 컨텍스트
 import chroma from "chroma-js";  // 색상 관리를 위한 chroma.js 라이브러리
+import { useMonth } from "@/app/contexts/MonthContext";
 
 export default function AssetDetailPage() {
   const router = useRouter();

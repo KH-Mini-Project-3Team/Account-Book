@@ -84,6 +84,7 @@
   flex: 1;
   padding: 0.5rem;
   border-radius: 8px;
+  width: 100%; 
 }
 
 /* 내역 리스트 전체 wrapper (ul 태그) */
