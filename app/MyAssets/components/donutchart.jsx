@@ -11,7 +11,18 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const DonutChart = ({ data, onColors }) => {
   useEffect(() => {
     // 색상 배열을 부모 컴포넌트로 전달 (한 번만 실행)
-    const chartColors = ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"];
+    const chartColors = [
+      "#36A2EB", // 파랑
+      "#FFCE56", // 노랑
+      "#4BC0C0", // 민트
+      "#FF6384", // 핑크
+      "#9966FF", // 연보라
+      "#FF9F40", // 주황
+      "#C9CBCF", // 회색
+      "#8AC926", // 연두
+      "#1982C4", // 진파랑
+      "#6A4C93"  // 보라
+    ];
     if (onColors) {
       onColors(chartColors);
     }
@@ -27,7 +38,18 @@ const DonutChart = ({ data, onColors }) => {
     datasets: [
       {
         data: data.values,
-        backgroundColor: ["#36A2EB", "#FFCE56", "#4BC0C0", "#FF6384"], // 차트 색상
+        backgroundColor: [
+          "#36A2EB", // 파랑
+          "#FFCE56", // 노랑
+          "#4BC0C0", // 민트
+          "#FF6384", // 핑크
+          "#9966FF", // 연보라
+          "#FF9F40", // 주황
+          "#C9CBCF", // 회색
+          "#8AC926", // 연두
+          "#1982C4", // 진파랑
+          "#6A4C93"  // 보라
+        ], // 차트 색상
         borderWidth: 1,
       },
     ],

@@ -1,61 +1,74 @@
-"use client";
+// AssetDetailPage.js
+
+"use client"; // 이 파일은 클라이언트 사이드에서만 실행됨
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import DonutChart from "../components/donutchart";
-import styles from "./AssetDetail.module.css";
-import { useData } from "@/app/contexts/DataContext";
-import chroma from "chroma-js";  // chroma.js 라이브러리 임포트
+import { useRouter } from "next/navigation"; // 페이지 이동을 위한 Next.js의 router 사용
+import DonutChart from "../components/donutchart"; // 도넛 차트 컴포넌트 가져오기
+import styles from "./AssetDetail.module.css"; // 스타일 파일 가져오기
+import { useData } from "@/app/contexts/DataContext"; // 전역 데이터 관리 컨텍스트
+import chroma from "chroma-js";  // 색상 관리를 위한 chroma.js 라이브러리
 
 export default function AssetDetailPage() {
   const router = useRouter();
-  const { data } = useData();
-  const [selectedTab, setSelectedTab] = useState("income");
-  const [filterCategory, setFilterCategory] = useState("전체");
-  const [sortType, setSortType] = useState("최신순");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [expandedMonth, setExpandedMonth] = useState({});
+  const { data } = useData(); // context에서 자산 데이터를 가져옴
+  const [selectedTab, setSelectedTab] = useState("income"); // '수입' 혹은 '지출' 탭 상태
+  const [filterCategory, setFilterCategory] = useState("전체"); // 카테고리 필터 상태
+  const [sortType, setSortType] = useState("최신순"); // 정렬 방식 상태
+  const [selectedMonth, setSelectedMonth] = useState(""); // 선택된 월 상태
+  const [expandedMonth, setExpandedMonth] = useState({}); // 확장된 월 내역을 위한 상태
 
+  // 자산 데이터를 월별로 그룹화하는 코드
   const grouped = data.reduce((acc, item) => {
-    const month = item.date.slice(0, 7);
-    acc[month] = acc[month] || [];
-    acc[month].push(item);
+    const month = item.date.slice(0, 7); // yyyy-mm 형식으로 날짜 추출
+    acc[month] = acc[month] || []; // 월별로 그룹화
+    acc[month].push(item); // 해당 월에 아이템 추가
     return acc;
   }, {});
 
+  // 그룹화된 월을 최신순으로 정렬
   const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
 
+  // 컴포넌트 로드 시 기본 선택된 월을 현재 월로 설정
   useEffect(() => {
-    const todayMonth = new Date().toISOString().slice(0, 7);
+    const todayMonth = new Date().toISOString().slice(0, 7); // 현재 월을 yyyy-mm 형식으로 추출
     setSelectedMonth(todayMonth);
-  }, [selectedTab]);
+  }, [selectedTab]); // selectedTab이 변경될 때마다 실행
 
+  // 선택된 월에 해당하는 항목들 필터링
   const currentItems = selectedMonth
     ? (grouped[selectedMonth] || []).filter((item) => item.type === selectedTab)
     : [];
 
+  // 선택된 월에서 카테고리 목록 추출
   const currentMonthCategories = [...new Set(currentItems.map((item) => item.category))];
 
+  // 카테고리 필터링
   const filtered = currentItems.filter(
     (item) => filterCategory === "전체" || item.category === filterCategory
   );
 
+  // 정렬 방식 적용
   const sorted = [...filtered].sort((a, b) => {
     if (sortType === "최신순") return new Date(b.date) - new Date(a.date);
     else return b.price - a.price;
   });
 
+  // 월이 확장되었는지 여부 확인
   const isExpanded = expandedMonth[selectedMonth] || false;
+  // 확장 여부에 따라 표시할 항목을 조정
   const itemsToShow = isExpanded ? sorted : sorted.slice(0, 3);
 
+  // 각 카테고리별 금액 합계 계산
   const categoryMap = {};
   (selectedMonth ? currentItems : filtered).forEach((item) => {
     if (!categoryMap[item.category]) categoryMap[item.category] = 0;
     categoryMap[item.category] += item.price;
   });
 
-  const chartLabels = Object.keys(categoryMap);
-  const chartValues = Object.values(categoryMap);
+  // 도넛 차트의 데이터 준비
+  const chartLabels = Object.keys(categoryMap); // 카테고리
+  const chartValues = Object.values(categoryMap); // 각 카테고리의 합계 금액
 
   // chroma.js를 사용하여 색상 팔레트를 동적으로 생성
   const generateColors = (numColors) => {
@@ -69,13 +82,14 @@ export default function AssetDetailPage() {
 
   return (
     <div className={styles.container}>
+      {/* 수입 / 지출 탭 */}
       <div className={styles.tabWrapper}>
         {["income", "expend"].map((tab) => (
           <button
             key={tab}
             onClick={() => {
-              setSelectedTab(tab);
-              setFilterCategory("전체");
+              setSelectedTab(tab); // 클릭 시 탭 변경
+              setFilterCategory("전체"); // 카테고리 초기화
             }}
             className={`${styles.tabButton} ${
               selectedTab === tab ? styles.tabSelected : styles.tabUnselected
@@ -86,6 +100,7 @@ export default function AssetDetailPage() {
         ))}
       </div>
 
+      {/* 카테고리 & 정렬 셀렉트박스 */}
       <div className={styles.filterRow}>
         <select
           value={filterCategory}
@@ -109,6 +124,7 @@ export default function AssetDetailPage() {
         </select>
       </div>
 
+      {/* 도넛 차트 */}
       <div className={styles.chartContainer}>
         <DonutChart
           data={{
@@ -119,6 +135,7 @@ export default function AssetDetailPage() {
         />
       </div>
 
+      {/* 월 선택 및 '자산 현황' 버튼 */}
       <div className={styles.selectAndButtonWrapper}>
         <div className={styles.monthSelectWrapper}>
           <select
@@ -142,6 +159,7 @@ export default function AssetDetailPage() {
         </div>
       </div>
 
+      {/* 선택된 월 내역 */}
       <div className={styles.centerSection}>
         {selectedMonth && (
           <>
@@ -162,6 +180,7 @@ export default function AssetDetailPage() {
               ))}
             </ul>
 
+            {/* 더보기 / 접기 버튼 */}
             {sorted.length > 3 && (
               <div style={{ display: "flex", justifyContent: "center", marginTop: "0.5rem" }}>
                 <button

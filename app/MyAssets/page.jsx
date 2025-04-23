@@ -11,7 +11,7 @@ export default function MyAssetsPage() {
   const [chartColors, setChartColors] = useState([]);
   const [expanded, setExpanded] = useState(null);
 
-  
+
 
   // ✅ 자산별 수입/지출 합산 및 내역 그룹화
   const assetMap = data.reduce((acc, item) => {
@@ -109,9 +109,8 @@ export default function MyAssetsPage() {
 
             {/* 상세 내역 */}
             <div
-              className={`${styles.slideContent} ${
-                expanded === item.label ? styles.slideContentExpanded : ""
-              }`}
+              className={`${styles.slideContent} ${expanded === item.label ? styles.slideContentExpanded : ""
+                }`}
             >
               {expanded === item.label && (
                 <div className={styles.detailList}>
@@ -119,7 +118,9 @@ export default function MyAssetsPage() {
                     .slice() // 원본 배열 손상 방지
                     .sort((a, b) => new Date(b.date) - new Date(a.date)) // ✅ 최신순 정렬
                     .map((detail, i) => (
-                      <div key={i} className={styles.detailCard}>
+                      <div key={i} className={styles.detailCard}
+                        onClick={() => router.push(`/InputAssets?id=${detail.id}`)} //수정페이지 이동
+                      >
                         <span
                           className={
                             detail.type === "income"
@@ -129,7 +130,7 @@ export default function MyAssetsPage() {
                         >
                           [{detail.type === "income" ? "수입" : "지출"}]
                         </span>
-                        <span>{detail.memo}</span>
+                        <span>{detail.category}</span>
                         <span>{detail.date}</span>
                         <span>{detail.price.toLocaleString()} 원</span>
                       </div>
