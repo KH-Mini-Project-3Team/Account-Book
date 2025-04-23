@@ -6,7 +6,6 @@ import styles from "./styles/header.module.css";
 import Image from 'next/image';
 import Link from 'next/link';
 
-
 export default function Header() {
    const { currentDate, setCurrentDate } = useMonth();
 
@@ -14,7 +13,14 @@ export default function Header() {
    const Pathname = usePathname();
    const router = useRouter();
    if (Pathname.includes("/inputheader")) return null;
-   
+
+   let pageTitle = '가계부'; // 기본값
+
+   if (Pathname === "/MyAssets") {
+     pageTitle = "자산";
+   } else if (Pathname === "/MyAssets/asset-detail") {
+     pageTitle = "통계";
+   }
    // 이전 월로 이동
    const handlePrevMonth = () => {
       const prevMonth = subMonths(currentDate, 1); // 이전 달로 설정
@@ -43,7 +49,7 @@ export default function Header() {
                   />
                </button>
             </Link>
-            <span className={styles.mainText}>가계부</span>
+            <span className={styles.mainText}>{pageTitle}</span>
             <button>
                <Image
                   src="/images/favorite.svg"
