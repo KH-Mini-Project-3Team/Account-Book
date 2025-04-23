@@ -2,29 +2,17 @@
 
 import { usePathname } from 'next/navigation';
 import Header from './Header';
-import InputHeader from './inputheader';
-import StasticsHeader from './stasticsheader';
-
+import InputHeader from './InputHeader'
 export default function HeaderWrapper() {
   const pathname = usePathname();
 
-  // /MyAssets 일 때 InputHeader 표시
-  if (pathname === "/MyAssets") {
-    return <InputHeader />;
-  }
-  if (pathname === "/MyAssets/asset-detail") {
-    return <StasticsHeader />;
-  }
-
-  // 특정 페이지에서만 헤더 숨기기
+  // 특정 페이지에서는 헤더를 아예 숨기기
   if (pathname === "/inputheader") {
     return null;
   }
-
   if (pathname === "/InputAssets"){
-    return null;
+    return <InputHeader />
   }
-
-  // 그 외 기본 Header
+  // 모든 페이지에서 Header 하나만 사용
   return <Header />;
 }

@@ -3,25 +3,22 @@
 import { useRouter } from "next/navigation";
 import styles from "./styles/InputHeader.module.css"
 import Image from "next/image"
-import Link from "next/link";
 export default function InputHeader() {
    const router = useRouter();
 
    return (
       <div className={styles.container}>
          <div className={styles.topBar}>
-            <Link href="/"> 
-               <button>
+               <button onClick={()=>router.back()} className={styles.backButton}>
                   <Image
-                     src="/images/home.svg"
-                     alt="Home"
+                     src="/images/back.svg"
+                     alt="goBack"
                      width={25}
                      height={25}
                      className={styles.Images}
                   />
                </button>
-            </Link>
-            <span className={styles.title}>자산</span>
+            <span className={styles.title}>추가</span>
 
             <div className={styles.icon}>
                <button>
