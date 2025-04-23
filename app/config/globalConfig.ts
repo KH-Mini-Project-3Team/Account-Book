@@ -1,5 +1,6 @@
 export const globalConfig = [
   // ✅ 수입 데이터
+  
   {
     id: 1,
     type: "income",
@@ -81,6 +82,7 @@ export const globalConfig = [
     asset: "카카오뱅크",
     memo: "파트타임",
   },
+  
 
   // ✅ 지출 데이터
   {
