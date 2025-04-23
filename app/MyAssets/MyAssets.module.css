@@ -215,3 +215,9 @@
   font-weight: bold;
 }
 
+/* 글자수 overflow되면 hidden */
+.ellipsisText {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
