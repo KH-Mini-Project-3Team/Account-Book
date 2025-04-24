@@ -10,9 +10,17 @@ export default function HeaderWrapper() {
   if (pathname === "/inputheader") {
     return null;
   }
-  if (pathname === "/InputAssets"){
+  if (
+    pathname === "/Categories/SetRevenu" ||
+    pathname === "/Categories/SetAssets" ||
+    pathname === "/Categories/SetExpend"
+  ) {
+    return null; 
+  }
+  if (pathname === "/InputAssets") {
     return <InputHeader />
   }
+
   // 모든 페이지에서 Header 하나만 사용
   return <Header />;
 }

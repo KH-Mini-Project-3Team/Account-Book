@@ -30,7 +30,7 @@
    height: auto;
    padding: 1px;
    margin: 0.2em;
-   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
+   
 
 }
 
@@ -67,12 +67,12 @@
    width: 20px; 
    height: auto;
    margin: 0 5px 0 5px;
-   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
+   
 }
 
 .dateText {
    font-size: 1.6rem;
-   font-weight: bold;
+   
    text-align: center;
    margin: 0 20px; 
    flex-grow: 1;

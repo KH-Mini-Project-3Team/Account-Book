@@ -27,7 +27,7 @@
    cursor: pointer;
    padding: 0;
    margin-right: 6%;
-   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
+   
  }
  .backButton {
   background: none;
