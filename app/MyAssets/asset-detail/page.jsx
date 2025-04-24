@@ -14,7 +14,6 @@ export default function AssetDetailPage() {
 
   const {currentDate, setCurrentDate} = useMonth();
   const selectedMonth = currentDate.toISOString().slice(0, 7);
-
   const router = useRouter();
   const { data } = useData(); // context에서 자산 데이터를 가져옴
   const [selectedTab, setSelectedTab] = useState("income"); // '수입' 혹은 '지출' 탭 상태

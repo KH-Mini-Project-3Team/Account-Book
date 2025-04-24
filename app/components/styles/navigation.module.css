@@ -18,7 +18,7 @@
    height: 32px;
    display: block;
    /* filter: brightness(0) invert(1); */
-   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
+   
 
 }
 .navLink{
@@ -37,5 +37,5 @@
    text-align: center;
    width: max-content;
    padding: 0 2px;
-   color: #A1BDEC;
+   color: #4988F2;
  }
