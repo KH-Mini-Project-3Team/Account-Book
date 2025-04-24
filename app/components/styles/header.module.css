@@ -6,7 +6,7 @@
    max-width: 500px; /* 아이폰 15 Pro 모델의 화면 너비 기준 */
    margin: 0 auto; /* 중앙 정렬 */
    background-color: rgb(243, 215, 211);/* 하얀색 배경 */
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+   /* 약간의 그림자 효과 */
 }
 
 /* 첫 번째 div (상단 바) 스타일 */
