@@ -1,13 +1,13 @@
 /* 상단 타이틀 스타일 */
 .title {
-  color: black;                     /* 글자색 검정 */
+  color: #363636;                     /* 글자색 검정 */
   text-align: center;              /* 중앙 정렬 */
   margin-top: 1rem;                /* 위쪽 여백 */
 }
 
 /* 총 자산 표시 스타일 */
 .totalAssets {
-  color: black;                    /* 글자색 검정 */
+  color: #363636;                    /* 글자색 검정 */
   text-align: center;              /* 중앙 정렬 */
   margin-top: 0.5rem;              /* 위쪽 여백 */
 }
@@ -76,7 +76,7 @@
   border-radius: 2rem;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; /* 모노 폰트 */
   font-size: 1.2rem;
-  color: #000;                   /* 💡 검정색으로 설정 */
+  color: #363636;                   /* 💡 검정색으로 설정 */
 }
 
 /* 항목 제목 스타일 */
@@ -84,7 +84,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   margin: 0;
-  color: #000;                   /* 검정색 */
+  color: #363636;                   /* 검정색 */
 }
 
 /* 도넛 차트 옆 색깔 점 */
@@ -117,7 +117,7 @@
   text-align: left;
   flex: 1;
   margin-right: 10px;
-  color: #000;
+  color: #363636;
 }
 
 /* 레이블 제목 */
