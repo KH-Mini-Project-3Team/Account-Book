@@ -8,14 +8,19 @@ import DonutChart from "../components/donutchart"; // 도넛 차트 컴포넌트
 import styles from "./AssetDetail.module.css"; // 스타일 파일 가져오기
 import { useData } from "@/app/contexts/DataContext"; // 전역 데이터 관리 컨텍스트
 import chroma from "chroma-js";  // 색상 관리를 위한 chroma.js 라이브러리
+import { useMonth } from "@/app/contexts/MonthContext";
 
 export default function AssetDetailPage() {
+
+  const {currentDate} = useMonth();
+  const selectedMonth = currentDate.toISOString().slice(0, 7);
+
   const router = useRouter();
   const { data } = useData(); // context에서 자산 데이터를 가져옴
   const [selectedTab, setSelectedTab] = useState("income"); // '수입' 혹은 '지출' 탭 상태
   const [filterCategory, setFilterCategory] = useState("전체"); // 카테고리 필터 상태
   const [sortType, setSortType] = useState("최신순"); // 정렬 방식 상태
-  const [selectedMonth, setSelectedMonth] = useState(""); // 선택된 월 상태
+  
   const [expandedMonth, setExpandedMonth] = useState({}); // 확장된 월 내역을 위한 상태
 
   // 자산 데이터를 월별로 그룹화하는 코드
@@ -29,11 +34,7 @@ export default function AssetDetailPage() {
   // 그룹화된 월을 최신순으로 정렬
   const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
 
-  // 컴포넌트 로드 시 기본 선택된 월을 현재 월로 설정
-  useEffect(() => {
-    const todayMonth = new Date().toISOString().slice(0, 7); // 현재 월을 yyyy-mm 형식으로 추출
-    setSelectedMonth(todayMonth);
-  }, [selectedTab]); // selectedTab이 변경될 때마다 실행
+
 
   // 선택된 월에 해당하는 항목들 필터링
   const currentItems = selectedMonth
@@ -140,8 +141,9 @@ export default function AssetDetailPage() {
         <div className={styles.monthSelectWrapper}>
           <select
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            className={styles.select}
+            onChange={(e) => {
+              const newMonth = new Date(`${e.target.value}-01`);
+              setCurrentDate(newMonth); }}
           >
             <option value="">월 선택</option>
             {allMonths.map((month) => (
