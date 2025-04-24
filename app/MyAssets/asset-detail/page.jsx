@@ -12,7 +12,7 @@ import { useMonth } from "@/app/contexts/MonthContext";
 
 export default function AssetDetailPage() {
 
-  const {currentDate} = useMonth();
+  const {currentDate, setCurrentDate} = useMonth();
   const selectedMonth = currentDate.toISOString().slice(0, 7);
 
   const router = useRouter();
