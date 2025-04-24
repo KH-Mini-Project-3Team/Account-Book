@@ -127,12 +127,21 @@ export default function MyAssetsPage() {
                               ? styles.income
                               : styles.expend
                           }
+                          style={{width: "15%"}}
                         >
                           [{detail.type === "income" ? "수입" : "지출"}]
                         </span>
-                        <span>{detail.category}</span>
-                        <span>{detail.date}</span>
-                        <span>{detail.price.toLocaleString()} 원</span>
+                        <span
+                        className={styles.ellipsisText} 
+                        style={{width: "17%", textAlign:"center"}}>
+                          {detail.category}</span>
+                        <span
+                        style={{width: "30%", textAlign:"right"}}>
+                          {detail.date}</span>
+                        <span 
+                        className={styles.ellipsisText}
+                        style={{width: "30%", textAlign:"right"}}>
+                          {detail.price.toLocaleString()} 원</span>
                       </div>
                     ))}
                 </div>
