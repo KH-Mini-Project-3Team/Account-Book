@@ -17,12 +17,11 @@ export default function AssetDetailPage() {
 
   const router = useRouter();
   const { data } = useData(); // context에서 자산 데이터를 가져옴
-  const {currentDate} = useMonth();
   const [selectedTab, setSelectedTab] = useState("income"); // '수입' 혹은 '지출' 탭 상태
   const [filterCategory, setFilterCategory] = useState("전체"); // 카테고리 필터 상태
   const [sortType, setSortType] = useState("최신순"); // 정렬 방식 상태
   const [expandedMonth, setExpandedMonth] = useState({}); // 확장된 월 내역을 위한 상태
-  const selectedMonth = currentDate.toISOString().slice(0, 7);
+
   // 자산 데이터를 월별로 그룹화하는 코드
   const grouped = data.reduce((acc, item) => {
     const month = item.date.slice(0, 7); // yyyy-mm 형식으로 날짜 추출
