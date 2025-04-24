@@ -12,7 +12,7 @@ export default function CategoryHeader({
       style={{
         display: "flex",
         alignItems: "center",
-        background: "#f8b8af", // 이미지 배경색에 근접
+        background: "#FFCEC7", // 이미지 배경색에 근접
         paddingLeft: "20px",
         paddingRight: "10px",
         justifyContent: "space-between",
@@ -26,7 +26,7 @@ export default function CategoryHeader({
         style={{
           fontSize: "18px",
           fontWeight: 500,
-          color: "#FFF", // 이미지의 글자색에 근접
+          color: "#363636", // 이미지의 글자색에 근접
         }}
       >
         {categoryLabel}
