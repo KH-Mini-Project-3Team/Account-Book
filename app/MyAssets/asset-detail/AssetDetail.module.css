@@ -5,8 +5,9 @@
 .selectAndButtonWrapper {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  gap: 70px; /* 요소 간의 간격을 적절히 조정 */
+  gap: 60px; /* 요소 간의 간격을 적절히 조정 */
   padding-left: 15px;
+  justify-content: flex-start;
 }
 
 /* 월 선택 셀렉트박스 감싸는 div */
@@ -15,26 +16,28 @@
 }
 
 
-/* 자산 페이지 버튼 */
 .backButton {
-  
+  display: block;
+  margin: 1.5rem auto; /* 위아래 여백 + 좌우 자동 → 가운데 정렬 */
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   border-radius: 10px;
   border: none;
-  background-color: #9BBFA5;   /* 블루 배경 */
-  color: #363636;                 /* 흰색 텍스트 */
+  background-color: #9BBFA5;
+  color: #363636;
   cursor: pointer;
-  margin: 0;                   /* 이전에 적용된 margin: 0 auto 제거 */
-  margin-bottom: 1.5rem;         /* 여전히 버튼 아래 마진을 추가 */
-  margin-top: 1.5rem;
+  margin-left: auto;  /* 버튼을 왼쪽 끝에서 밀어내어 가운데 정렬 */
+  margin-right: auto; /* 버튼을 오른쪽 끝에서 밀어내어 가운데 정렬 */
 }
-
 /* 버튼 hover 효과 */
 .backButton:hover {
   background-color: #609e72;   /* hover 시 더 어두운 파란색 */
 }
 
+.buttonBox {
+  display: flex;
+  justify-content: center;
+}
 
 /* 수입 / 지출 탭 버튼 감싸는 컨테이너 */
 .tabWrapper {
@@ -87,7 +90,9 @@
   padding: 0.5rem;
   border-radius: 8px;
   width: 100%; 
-  background-color: #e0e5ee;
+  border: none;
+  margin-left: 0.5rem;  /* 양옆 마진 추가 */
+  margin-right: 0.5rem; /* 양옆 마진 추가 */
 }
 
 /* 내역 리스트 전체 wrapper (ul 태그) */
