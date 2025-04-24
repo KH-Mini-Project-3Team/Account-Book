@@ -1,12 +1,13 @@
 .container {
    display: flex;
    box-sizing: border-box;
-   padding-left: 2.5%;
+   
    flex-direction: column;
    align-items: center;
    width: 100%;
    max-width: 500px;
    margin: 0 auto;
+   background-color: #FFE6E2;
  }
  
  /* 상단 바 (자산 헤더) */
@@ -16,6 +17,7 @@
    align-items: center;
    width: 100%;
    height: 40px;
+   
  }
  
  /* 버튼 공통 스타일 */
@@ -25,6 +27,7 @@
    cursor: pointer;
    padding: 0;
    margin-right: 6%;
+   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
  }
  .backButton {
   background: none;
@@ -32,6 +35,7 @@
   padding: 0;
   margin-right: 8px;
   cursor: pointer;
+  margin-left:12px;
 }
  /* 이미지 스타일 (기존과 동일) */
  .images {
@@ -39,6 +43,7 @@
    height: auto;
    padding: 1px;
    margin: 0.2em;
+   
  }
  
  /* "자산" 텍스트 (기존 .mainText와 동일) */
@@ -48,6 +53,7 @@
    position: absolute;
    left: 50%;
    transform: translateX(-50%);
+   color: #908B8E;
  }
  
  /* 오른쪽 아이콘 그룹 */

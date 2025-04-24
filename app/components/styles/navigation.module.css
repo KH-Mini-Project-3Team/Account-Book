@@ -1,6 +1,6 @@
 .container{
    width: 100%;
-   /* border: 1px solid ; */
+   background-color: #FFE6E2;
 }
 
 .navList{
@@ -17,8 +17,9 @@
    width: 32px;
    height: 32px;
    display: block;
-   filter: brightness(0) invert(1);
-   
+   /* filter: brightness(0) invert(1); */
+   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
+
 }
 .navLink{
    text-decoration: none;
@@ -32,10 +33,9 @@
  .navText {
    font-size: 16px;
    font-weight: 600;
-   color: #555;
    letter-spacing: 0.05em;
    text-align: center;
    width: max-content;
    padding: 0 2px;
-   color: white;
+   color: #A1BDEC;
  }
