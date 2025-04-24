@@ -62,7 +62,7 @@ export default function DailyTotal() {
             .reduce((sum, i) => sum + i.price, 0);
 
           return (
-            <div key={dayStr}>
+            <div key={dayStr} className={styles.dayGroup}>
               <ul>
                 <li>{datePart}</li>
                 <li>{dayPart}</li>
