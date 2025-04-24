@@ -28,7 +28,7 @@
 .tabs {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 }
 
 .tabs button {
@@ -140,7 +140,7 @@
 
 .calculator-grid button {
     width: calc(24.5%); /* 버튼 크기를 유연하게 설정 (기존 유지) */
-    height: 40px; /* 기존 높이 유지 */
+    height: 48px; /* 기존 높이 유지 */
     background-color: rgba(161,189,236,0.5);
     color: #363636;
     border: 0;
