@@ -54,7 +54,7 @@ export default function CategoryHeader({
             width="26"
             height="26"
             viewBox="0 0 40 40"
-            stroke="#FFF"
+            stroke="#4988f2"
             strokeWidth="3"
           >
             <line x1="10" y1="10" x2="30" y2="30" />

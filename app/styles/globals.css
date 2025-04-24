@@ -13,7 +13,7 @@ html, body {
 .layout-wrapper{
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 93.5vh;;
   flex-direction: column;
   background-color: #FFE6E2;
 }
@@ -32,7 +32,7 @@ html, body {
   z-index: 100;
   align-items: center;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 /* Date Picker (크기 유지) */

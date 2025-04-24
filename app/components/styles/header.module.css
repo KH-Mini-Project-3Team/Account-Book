@@ -37,11 +37,11 @@
 /* 여기 가계부 span */
 .mainText {
    font-size: 1.8rem;
-   font-weight: bold;
+   font-weight: 400;
    text-align: center;
    margin-left: 26px;
    flex-grow: 1; /* 텍스트를 가운데로 배치하기 위해 flex-grow 사용 */
-   color: #908B8E;
+   color: #444444;
 }
 
 /* 두 번째 div 스타일 */
@@ -72,9 +72,9 @@
 
 .dateText {
    font-size: 1.6rem;
-   
+   font-weight: 400;
    text-align: center;
    margin: 0 20px; 
    flex-grow: 1;
-   color: #908B8E;
+   color: #444444;
 }
