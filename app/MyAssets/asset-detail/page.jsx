@@ -12,9 +12,6 @@ import { useMonth } from "@/app/contexts/MonthContext";
 
 export default function AssetDetailPage() {
 
-  const {currentDate} = useMonth();
-  const selectedMonth = currentDate.toISOString().slice(0, 7);
-
   const router = useRouter();
   const { data } = useData(); // context에서 자산 데이터를 가져옴
   const {currentDate} = useMonth();
