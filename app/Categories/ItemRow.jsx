@@ -34,10 +34,10 @@ const ItemRow = ({
       sx={{
         display: "flex",
         alignItems: "center",
-        backgroundColor: "#f8b8af",
+        backgroundColor: "rgba(161,189,236,0.5)",
         padding: "1.5% 3%",
         borderRadius: 0,
-        color: "#fff",
+        color: "#363636",
         width: "94%",
         minHeight: "40px",
         margin: 0, // margin 제거
@@ -60,7 +60,7 @@ const ItemRow = ({
       <Typography sx={{ flex: 1, fontWeight: 500 }}>{text}</Typography>
       <IconButton
         size="small"
-        sx={{ color: "#FFF" }}
+        sx={{ color: "#363636" }}
         onClick={(e) => {
           e.stopPropagation();
           handleEdit();
@@ -68,7 +68,7 @@ const ItemRow = ({
       >
         <EditIcon />
       </IconButton>
-      <IconButton size="small" sx={{ color: "#FFF", ml: 1 }}>
+      <IconButton size="small" sx={{ color: "#363636", ml: 1 }}>
         <DragHandleIcon />
       </IconButton>
     </Box>

@@ -11,6 +11,10 @@ import chroma from "chroma-js";  // 색상 관리를 위한 chroma.js 라이브�
 import { useMonth } from "@/app/contexts/MonthContext";
 
 export default function AssetDetailPage() {
+
+  const {currentDate} = useMonth();
+  const selectedMonth = currentDate.toISOString().slice(0, 7);
+
   const router = useRouter();
   const { data } = useData(); // context에서 자산 데이터를 가져옴
   const {currentDate} = useMonth();
@@ -29,7 +33,6 @@ export default function AssetDetailPage() {
 
   // 그룹화된 월을 최신순으로 정렬
   const allMonths = Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a));
-
   // 선택된 월에 해당하는 항목들 필터링
   const currentItems = selectedMonth
     ? (grouped[selectedMonth] || []).filter((item) => item.type === selectedTab)
@@ -137,8 +140,9 @@ export default function AssetDetailPage() {
         <div className={styles.monthSelectWrapper}>
           <select
             value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            className={styles.select}
+            onChange={(e) => {
+              const newMonth = new Date(`${e.target.value}-01`);
+              setCurrentDate(newMonth); }}
           >
             <option value="" className={styles.select}>월 선택</option>
             {allMonths.map((month) => (

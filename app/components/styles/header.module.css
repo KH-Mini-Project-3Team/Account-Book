@@ -5,8 +5,7 @@
    width: 100%;
    max-width: 500px; /* 아이폰 15 Pro 모델의 화면 너비 기준 */
    margin: 0 auto; /* 중앙 정렬 */
-   background-color: rgb(243, 215, 211);/* 하얀색 배경 */
-   /* 약간의 그림자 효과 */
+   background-color: #FFE6E2;
 }
 
 /* 첫 번째 div (상단 바) 스타일 */
@@ -31,6 +30,7 @@
    height: auto;
    padding: 1px;
    margin: 0.2em;
+   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
 
 }
 
@@ -41,6 +41,7 @@
    text-align: center;
    margin-left: 26px;
    flex-grow: 1; /* 텍스트를 가운데로 배치하기 위해 flex-grow 사용 */
+   color: #908B8E;
 }
 
 /* 두 번째 div 스타일 */
@@ -59,12 +60,14 @@
    cursor: pointer;
    padding: 0.3em;
    height: 40px;
+   
 }
 
 .arrowButtons img {
    width: 20px; 
    height: auto;
    margin: 0 5px 0 5px;
+   filter: brightness(0) saturate(100%) invert(81%) sepia(16%) saturate(540%) hue-rotate(185deg) brightness(93%) contrast(88%);
 }
 
 .dateText {
@@ -73,4 +76,5 @@
    text-align: center;
    margin: 0 20px; 
    flex-grow: 1;
+   color: #908B8E;
 }
