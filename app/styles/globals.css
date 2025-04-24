@@ -8,7 +8,7 @@ html, body {
   padding: 0;
   width: 500px;
   font-family: Arial, sans-serif;
-  background-color: #F3D7D3; /* 부모 배경색 */
+  background-color: #FFE6E2; /* 부모 배경색 */
   color: #FFFFFF;
 }
 .layout-wrapper{
