@@ -6,11 +6,10 @@
   align-items: center;
   justify-content: space-around;
   list-style-type: none;
-  border-bottom: 1px solid #efede6;
+  border-bottom: 1px solid #98b6eb;
   width: 100%;
   height: 2.5rem;
-  background-color: #f3d7d3;
-  color: white;
+  color: #363636;
   box-sizing: border-box;
 }
 
@@ -20,8 +19,8 @@
 
 .underline {
   font-weight: bold;
-  color: #c79db1;
-  background-color: #ffe6e2;
+  color: #363636;
+  background-color: #a1bcec6c;
   border-radius: 7px;
   padding: 2px 9px
 }
@@ -31,11 +30,9 @@
   text-align: center;
   align-items: center;
   justify-content: space-around;
-  /* border-bottom: 1px solid #efede6; */
   width: 100%;
   height: 3.5rem;
-  background-color: #f3d7d3;
-  color: white;
+  color: #363636;
 }
 
 .total div{
@@ -56,14 +53,14 @@
   padding: 0;
   display: flex;
   box-sizing: border-box;
-  color: white;
+  color: #363636;
   font-size: 15px;
   width: 100%;
   flex-direction: column;
 }
 .dailyTotal a{
   text-decoration: none;
-  color: white;
+  color: #363636;
 }
 .dailyTotal div {
   width: 100%;
@@ -79,17 +76,13 @@
   list-style-type: none;
   width: 100%;
   height: 2.5rem;
-  background-color:#f3d7d3 ;
-  border-top: 1px solid #efede6;
+  border-top: 1px solid #9BBFA5;
 }
 
 .dailyTotal ul li{
   display: inline-block;
 }
-.dailyTotal ul:nth-child(1){
-  border-bottom: 1px solid #efede6;
-  
-}
+
 
 .dailyTotal ul:nth-child(1) li{
   display: inherit;
@@ -99,12 +92,12 @@
 
 .dailyTotal ul:nth-child(1) li:nth-child(1){
   width: 10%;
+  font-weight: 550;
 }
 .dailyTotal ul:nth-child(1) li:nth-child(2){
   font-size: 10px;
-  border: 1px solid #cbc3d1;
   border-radius: 3px;
-  background-color: #cbc3d1;
+  background-color: #9bbfa562;
   width: 7%;
   margin-right: 20%;
 }
@@ -136,9 +129,8 @@
   width: 100%;
   height: 3.5rem;
   align-items: center;
-  background-color: #f3d7d3;
-  color: white;
-  /* border-bottom: 4px solid #ffe6e27a; */
+  color: #363636;
+  background-color: #a1bcec48;
 }
 .detailRow li{
   box-sizing: border-box;
@@ -147,8 +139,7 @@
 .category{
   text-align: left;
   width: 20%;
-  /* padding-left: 4%; */
-  color: #c26345;
+  font-weight: 550;
 }
 .memo{
   text-align: left;
