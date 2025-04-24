@@ -33,6 +33,7 @@
   width: 100%;
   height: 3.5rem;
   color: #363636;
+  border-bottom: 1px solid #9BBFA5;
 }
 
 .total div{
@@ -62,10 +63,15 @@
   text-decoration: none;
   color: #363636;
 }
-.dailyTotal div {
+.dailyTotal div:nth-child(1) {
   width: 100%;
   display: inline-block;
 }
+
+.dayGroup{
+  border-bottom: 1px solid #9BBFA5;
+}
+
 .dailyTotal ul:nth-child(1){
   margin: 0;
   padding: 0;
@@ -76,7 +82,7 @@
   list-style-type: none;
   width: 100%;
   height: 2.5rem;
-  border-top: 1px solid #9BBFA5;
+  /* border-top: 1px solid #9BBFA5; */
 }
 
 .dailyTotal ul li{
